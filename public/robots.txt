@@ -1,0 +1,11 @@
+User-agent: *
+Allow: /contato
+Allow: /servicos
+Allow: /parceiros
+Allow: /cases
+Allow: /terms
+Disallow: /parceiros/*
+Disallow: /cases/*
+Disallow: /metodos
+
+Sitemap: https://www.digitalscudero.com.br/sitemap.xml

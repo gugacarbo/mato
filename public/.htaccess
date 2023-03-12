@@ -1,0 +1,43 @@
+
+
+
+
+<IfModule mod_rewrite.c>
+
+  # Bloquear solicitações maliciosas
+  RewriteEngine On
+  RewriteCond %{QUERY_STRING} (<|%3C).*script.*(>|%3E) [NC,OR]
+  RewriteCond %{QUERY_STRING} GLOBALS(=|\[|\%[0-9A-Z]{0,2}) [OR]
+  RewriteCond %{QUERY_STRING} _REQUEST(=|\[|\%[0-9A-Z]{0,2})
+  RewriteRule .* - [F]
+
+  # Força Https
+  RewriteEngine On
+  RewriteCond %{HTTPS} off
+  RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+  
+  # php Amigável
+  RewriteEngine On
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME}.php -f  
+  RewriteRule !.*\.php$ %{REQUEST_FILENAME}.php [QSA,L]
+  
+#   # Proteger arquivos sensíveis
+# <Files "config.php">
+# Order allow, deny
+# Deny from all
+# </Files>
+
+  
+  
+  # AllTo /index.html
+  RewriteEngine On
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteRule . /index.html [L,QSA]
+
+</IfModule>
+
+
+#   RewriteCond %{REQUEST_URI} pix/
+#   RewriteRule (.*) /pix/ [L]

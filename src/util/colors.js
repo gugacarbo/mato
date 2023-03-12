@@ -1,0 +1,27 @@
+const colorsAll = {
+  "#FF5733": "white",
+  "#6B8E23": "white",
+  "#7B68EE": "white",
+  "#FFD700": "black",
+  "#228B22": "white",
+  "#FF1493": "white",
+  "#1E90FF": "white",
+  "#B22222": "white",
+  "#FF8C00": "black",
+  "#9932CC": "white",
+  "#FF00FF": "black",
+  "#FF6347": "white",
+  "#00FF7F": "black",
+  "#8B0000": "white",
+  "#FF69B4": "white",
+  "#8FBC8F": "black",
+  "#FFDAB9": "black",
+  "#8B008B": "white",
+  "#00FA9A": "black",
+  "#FF7F50": "white",
+  "#DAA520": "black",
+  "#A52A2A": "white",
+  "#FFC0CB": "black",
+  "#F08080": "black"
+}
+export default colorsAll
