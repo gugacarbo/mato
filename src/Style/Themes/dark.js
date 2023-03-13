@@ -11,6 +11,7 @@ const theme = {
     mediumGray: "#403e39",
     darkGray: "#1c1c16",
     green: "#2ecc71",
+    yellow: "#ffff00",
     red: "#e74c3c",
     main: {
       darker: "#df3a00",
@@ -18,7 +19,7 @@ const theme = {
       color: "#ff5b00",
       light: "#ff8c00",
       lighter: "#ffa500",
-      complement: "#00F1FF",
+      secondary: "#0099cc",
       triad: ["#2EFF19", "#3319FF"],
       shadow: ["#804D00", "#E68A00", "#402600"],
     },

@@ -1,43 +1,60 @@
 import { useEffect, useState } from "react";
 
 import PlanContext from "./index";
-
+import AllColors from "../../util/colors";
 export default ({ children }) => {
 
   const [plans, setPlans] = useState({
     plano_1: {
       materias: [],
       colors: {},
+      turmas: {},
     }
   });
-
   const [currentPlanName, setCurrentPlanName] = useState("plano_1")
-
   const [currentPlan, setCurrentPlan] = useState(plans[currentPlanName])
 
 
-  function addToPlan(item) {
-    if (currentPlan.materias.indexOf(item) == -1) {
-      const newMaterias = [...currentPlan.materias, item];
+
+  function addToPlan(materia) {
+    if (currentPlan.materias.indexOf(materia) == -1) {
+      const newMaterias = [...currentPlan.materias, materia];
       const newPlan = { ...currentPlan, materias: newMaterias };
+
+      if (!currentPlan.colors[materia[0]]) {
+        currentPlan.colors[materia[0]] = Object.keys(AllColors)[parseInt(Math.random() * Object.keys(AllColors).length)];
+      }
+
+      if (!currentPlan.turmas[materia[0]]) {
+        currentPlan.turmas[materia[0]] = materia[3][0];
+      }
+
       setCurrentPlan(newPlan);
     } else {
-      removeFromPlan(item);
+      removeFromPlan(materia);
     }
   }
-  function removeFromPlan(item) {
-    if (currentPlan.materias.indexOf(item) != -1) {
+
+  function removeFromPlan(materia) {
+    if (currentPlan.materias.indexOf(materia) != -1) {
       const newMaterias = [...currentPlan.materias];
-      newMaterias.splice(currentPlan.materias.indexOf(item), 1);
+      newMaterias.splice(currentPlan.materias.indexOf(materia), 1);
       const newPlan = { ...currentPlan, materias: newMaterias };
       setCurrentPlan(newPlan);
     }
   }
 
-  function setColor(item, color) {
+  function setColor(materia, color) {
     const newColors = { ...currentPlan.colors };
-    newColors[item[0]] = color;
+    newColors[materia[0]] = color;
     const newPlan = { ...currentPlan, colors: newColors };
+    setCurrentPlan(newPlan);
+  }
+
+  function setTurma(materia, turma) {
+    const newTurmas = { ...currentPlan.turmas };
+    newTurmas[materia[0]] = turma;
+    const newPlan = { ...currentPlan, turmas: newTurmas };
     setCurrentPlan(newPlan);
   }
 
@@ -50,8 +67,10 @@ export default ({ children }) => {
         plans,
         currentPlan,
         setColor,
+        setTurma,
         materias: currentPlan?.materias ?? [],
-        colors: currentPlan?.colors ?? {}
+        colors: currentPlan?.colors ?? {},
+        turmas: currentPlan?.turmas ?? {}
       }}
     >
       {children}

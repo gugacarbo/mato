@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { useState, useContext, useEffect } from "react";
 import { ReactComponent as MatoLogo } from '../../../../../assets/logo.svg'
 import SelectCampus from "./components/SelectCampus";
-import SearchInput, { createFilter } from 'react-search-input'
+import { createFilter } from 'react-search-input'
 import { AnimatePresence, motion } from "framer-motion";
 import DataContext from "../../../../../context/DataContext";
 import PlanContext from "../../../../../context/PlanContext";
@@ -14,6 +14,8 @@ function Header() {
   const { currentCampusData } = useContext(DataContext)
   const { addToPlan } = useContext(PlanContext)
   const [openList, setOpenList] = useState(false)
+
+  const [excludeSearch, setExcludeSearch] = useState([])
   useEffect(() => {
     setShowAll(false)
   }, [searchTerm])
@@ -26,6 +28,27 @@ function Header() {
         searchTerm,
         KEYS_TO_FILTERS
       ))
+
+  if (excludeSearch.length > 0) {
+
+    excludeSearch.forEach(excludeTerm => {
+      let excludelist =
+        filteredList.filter(
+          createFilter(
+            excludeTerm,
+            ['1', '2']
+          ))
+
+      excludelist.forEach(exclude => {
+        filteredList.splice(filteredList.indexOf(exclude), 1);
+      })
+    })
+  }
+
+
+
+
+
 
   let searchLength = filteredList.length;
 
@@ -45,8 +68,12 @@ function Header() {
         onBlur={() => setTimeout(setOpenList(false), 200)}
       >
         <span>Pesquisar Matéria</span>
-        <SearchInput
-          placeholder="Nome ou Código" onChange={setSearchTerm} />
+        <input
+          placeholder="Nome ou Código"
+          value={searchTerm}
+          onChange={(e) => {
+            setSearchTerm(e.target.value)
+          }} />
         <AnimatePresence>
 
           {openList && searchTerm &&
@@ -137,7 +164,7 @@ const SelectList = styled(motion.div)`
   box-shadow: ${({ theme }) => theme.dropShadow};
   `
 
-const SearchBox = styled.label`
+const SearchBox = styled.div`
 display: flex;
 justify-content: center;
 align-items: flex-end;

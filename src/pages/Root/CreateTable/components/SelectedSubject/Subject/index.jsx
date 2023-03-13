@@ -1,26 +1,42 @@
-import { ReactComponent as Trash } from "../../../../../assets/trash.svg"
-import { ReactComponent as ArrowDownIcon } from "../../../../../assets/arrow_down.svg"
-import { ReactComponent as XIcon } from "../../../../../assets/x.svg"
+import { ReactComponent as Trash } from "../../../../../../assets/trash.svg"
+import { ReactComponent as ArrowDownIcon } from "../../../../../../assets/arrow_down.svg"
+import { ReactComponent as XIcon } from "../../../../../../assets/x.svg"
 import { GithubPicker } from 'react-color'
 import styled from "styled-components";
 import { useContext, useState, useEffect } from "react";
-import PlanContext from "../../../../../context/PlanContext";
-import { motion } from "framer-motion";
+import PlanContext from "../../../../../../context/PlanContext";
+import { motion, AnimatePresence } from "framer-motion";
 import { useDetectClickOutside } from 'react-detect-click-outside';
 
-import AllColors from "../../../../../util/colors"
+import AllColors from "../../../../../../util/colors"
 
 function Subject({ e, z, key }) {
-  const { removeFromPlan, setColor, colors } = useContext(PlanContext)
+
+  var status = "ok";
+  if (/reservad/i.exec(e[2])) {
+    // status = 'reservada'
+  }
+  if (/cancelada/i.exec(e[2])) {
+    status = 'cancelada'
+  }
+
+  const { removeFromPlan, setColor, colors, turmas, setTurma } = useContext(PlanContext)
+
   const [color, setCurrentColor] = useState(colors?.[e?.[0]] ?? Object.keys(AllColors)[parseInt(Math.random() * Object.keys(AllColors).length)])
+  const [turma, setCurrentTurma] = useState(turmas?.[e?.[0]] ?? e[3][0])
   const [showColorMenu, setShowColorMenu] = useState(false)
+
+  const [showConfig, setShowConfig] = useState(false)
 
   const ref = useDetectClickOutside({ onTriggered: () => setShowColorMenu(false) });
 
+
   useEffect(() => {
-    if (!colors?.[e?.[0]]) {
-      setColor(e, color)
+
+    if (!turmas?.[e?.[0]]) {
+      setTurma(e, turma)
     }
+
   }, [e])
 
   const subjectAnimations = {
@@ -41,24 +57,24 @@ function Subject({ e, z, key }) {
     }
   }
 
+
+
   return (
     <Container {...subjectAnimations} style={z}>
       <ColorBox ref={ref}>
+
         <ColorDisplay
-          animate={{ backgroundColor: color }}
-          onClick={() => setShowColorMenu(prev => !prev)}
+          animate={status != 'cancelada' && { backgroundColor: color, scale: showColorMenu ? 1.1 : 1 }}
+          onClick={() => status != 'cancelada' && setShowColorMenu(prev => !prev)}
           color={AllColors[color.toUpperCase()]}
-        >
-          {showColorMenu &&
-            <XIcon />
-          }
+          whileHover={status != 'cancelada' && {
+            scale: 1.1
+          }}
+        >{showColorMenu && <XIcon />}</ColorDisplay>
 
-
-        </ColorDisplay>
         {showColorMenu &&
           <PickBox >
             <GetColor
-
               colors={Object.keys(AllColors)}
               color={color}
               onChange={(c) => setCurrentColor(c.hex)}
@@ -68,12 +84,33 @@ function Subject({ e, z, key }) {
         }
       </ColorBox>
       <b>{e[0]}</b>
-      <Name><span>{e[2]}</span></Name>
+      <i>{turma[0]}</i>
+
+      <Name status={status} onClick={() => setShowConfig(prev => !prev)}><span>{e[2]}</span></Name>
+
       <Buttons>
-        <ShowInfo onClick={() => { }} />
+        <ShowInfo onClick={() => setShowConfig(prev => !prev)} />
         <DeleteIcon onClick={() => removeFromPlan(e)} />
       </Buttons>
-    </Container>
+      <AnimatePresence >
+        {showConfig &&
+          <ConfigBox
+            initial={{
+              height: 0
+            }}
+            animate={{
+              height: 'auto',
+            }}
+            exit={{
+              height: 0
+            }}
+
+          >
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat minus dolore, minima nihil ea consequatur quam assumenda provident magni nesciunt quae ex fugiat ullam, nobis ab sint. Nisi, pariatur illo.
+          </ConfigBox>
+        }
+      </AnimatePresence>
+    </Container >
 
   );
 }
@@ -81,6 +118,11 @@ function Subject({ e, z, key }) {
 export default Subject;
 
 
+const ConfigBox = styled(motion.div)`
+  grid-row: 2/3;
+  grid-column: 1/6;
+  overflow: hidden;
+`
 
 
 const Container = styled(motion.div)`
@@ -89,15 +131,20 @@ const Container = styled(motion.div)`
   font-weight: 400;
   display: grid;
   padding-bottom: 0.2rem;
-  grid-template-columns: 100%;
-  grid-template-columns: 2rem 4.5rem 1fr auto;
+  grid-template-rows: 1fr auto;
+  grid-template-columns: 2rem 4.5rem 4rem 1fr auto;
   border-bottom: 1px solid ${({ theme }) => theme.color.lightGray}55;
   place-items: center;
   position: relative;
 
   b{
     font-weight: 400;
-    color: ${({ theme }) => theme.color.main.lighter}
+    color: ${({ theme }) => theme.color.main.light};
+  }
+  i{
+    font-style: normal;
+    color: ${({ theme }) => theme.color.main.secondary};
+    font-weight: 400;
   }
 `
 const ColorBox = styled.div`
@@ -154,6 +201,7 @@ const ShowInfo = styled(ArrowDownIcon)`
   cursor: pointer;
   transition: ${({ theme }) => theme.transition.main};
   &:hover{
+    transform: translateY(15%);
     fill: ${({ theme }) => theme.color.main.light};
   }
 `
@@ -166,6 +214,8 @@ const DeleteIcon = styled(Trash)`
   fill: ${({ theme }) => theme.color.red};
   cursor: pointer;
   &:hover{
+    transform: scale(1.1);
+
     fill: ${({ theme }) => theme.color.white};
   }
 `
@@ -175,6 +225,12 @@ width: 100%;
   overflow: hidden;
   position: relative;
   span{
+    ${({ status, theme }) => {
+
+    if (status == 'cancelada') {
+      return (`color:${theme.color.red};`)
+    }
+  }}
     white-space: nowrap;
     text-overflow: ellipsis;
 

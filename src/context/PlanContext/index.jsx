@@ -6,7 +6,8 @@ const PlanContext = createContext({
   removeFromPlan: () => { },
   setColor: () => { },
   materias: [],
-  colors: []
+  turmas: {},
+  colors: {}
 });
 
 export default PlanContext;
