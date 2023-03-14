@@ -2,15 +2,21 @@ import { useEffect, useState } from "react";
 
 import PlanContext from "./index";
 import AllColors from "../../util/colors";
-export default ({ children }) => {
+import planModel from "./planModel";
 
-  const [plans, setPlans] = useState({
+export default ({ children }) => {
+  const [plans, setPlans] = useState(planModel);
+  /**
+    const model = {
     plano_1: {
       materias: [],
       colors: {},
-      turmas: {},
+      turmas: {
+        "MTM3110": "01002"
+      },
     }
-  });
+  }
+   */
   const [currentPlanName, setCurrentPlanName] = useState("plano_1")
   const [currentPlan, setCurrentPlan] = useState(plans[currentPlanName])
 

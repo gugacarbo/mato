@@ -106,51 +106,6 @@ function WeekCalendar() {
         </TbHeader>
 
 
-        {/**  
-           [ 
-            codigo,
-            nome_Uniode,
-            nome,
-              [
-              cod_turma, 
-              horas_aula, 
-              vagas_ofertadas, 
-              vagas_ocupadas, 
-              alunos_especiais, 
-              saldo_vagas, 
-              pedidos_sem_vaga, 
-              [
-                [horarios], 
-                [professores]
-              ]
-            ]
-// ! --------------------------------------
-           [
-             "MTM3110",
-             "CALCULO 1 *FISICA - BACHARELADO",
-             "Cálculo 1 *FÍSICA - Bacharelado",
-            [
-              "01002",
-              72,
-              62,
-              61,
-              0,
-              1,
-              0,
-              [
-                ["3.1330-2 / EF1-EFI305", "6.1510-2 / EF1-EFI305"],
-                ["Luiz Augusto Saeger"]
-              ]
-            ]
-
-         "3.1330-2 / EF1-EFI305"
-          | |    |   |   \----- código da sala
-          | |    |   \--------- código do departamento
-          | |    \------------- número de aulas seguidas no bloco
-          | \------------------ horário da primeira aula do bloco
-          \-------------------- dia da semana seg=2 terc=3 qua=4
-        
-         */}
 
         {/*
         //TODO--Header 

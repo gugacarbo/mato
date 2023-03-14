@@ -9,6 +9,10 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useDetectClickOutside } from 'react-detect-click-outside';
 
 import AllColors from "../../../../../../util/colors"
+import SubjectConfig from "./SubjectConfig";
+
+
+
 
 function Subject({ e, z, key }) {
 
@@ -28,7 +32,8 @@ function Subject({ e, z, key }) {
 
   const [showConfig, setShowConfig] = useState(false)
 
-  const ref = useDetectClickOutside({ onTriggered: () => setShowColorMenu(false) });
+  const colorRef = useDetectClickOutside({ onTriggered: () => setShowColorMenu(false) });
+  const containerRef = useDetectClickOutside({ onTriggered: () => setShowConfig(false) });
 
 
   useEffect(() => {
@@ -39,7 +44,7 @@ function Subject({ e, z, key }) {
 
   }, [e])
 
-  const subjectAnimations = {
+  const growDownAnimation = {
     initial: {
       opacity: 0,
       x: "100%"
@@ -58,10 +63,13 @@ function Subject({ e, z, key }) {
   }
 
 
-
   return (
-    <Container {...subjectAnimations} style={z}>
-      <ColorBox ref={ref}>
+    <Container {...growDownAnimation}
+      style={z}
+      showConfig={showConfig}
+      ref={containerRef}>
+
+      <ColorBox ref={colorRef}>
 
         <ColorDisplay
           animate={status != 'cancelada' && { backgroundColor: color, scale: showColorMenu ? 1.1 : 1 }}
@@ -83,46 +91,35 @@ function Subject({ e, z, key }) {
           </PickBox>
         }
       </ColorBox>
-      <b>{e[0]}</b>
-      <i>{turma[0]}</i>
+      <b
+        onClick={() => setShowConfig(prev => !prev)}
+      >{e[0]}</b>
+      <i
+        onClick={() => setShowConfig(prev => !prev)}
+      >{turma[0]}</i>
 
-      <Name status={status} onClick={() => setShowConfig(prev => !prev)}><span>{e[2]}</span></Name>
+      <Name
+        animate={{
+          opacity: !showConfig ? 1 : 0,
+          y: !showConfig ? 0 : 10,
+
+        }}
+        onClick={() => setShowConfig(prev => !prev)}
+        status={status} ><span>{e[2]}</span></Name>
 
       <Buttons>
-        <ShowInfo onClick={() => setShowConfig(prev => !prev)} />
+        <ShowInfo showConfig={showConfig} onClick={() => setShowConfig(prev => !prev)} />
         <DeleteIcon onClick={() => removeFromPlan(e)} />
       </Buttons>
-      <AnimatePresence >
-        {showConfig &&
-          <ConfigBox
-            initial={{
-              height: 0
-            }}
-            animate={{
-              height: 'auto',
-            }}
-            exit={{
-              height: 0
-            }}
-
-          >
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat minus dolore, minima nihil ea consequatur quam assumenda provident magni nesciunt quae ex fugiat ullam, nobis ab sint. Nisi, pariatur illo.
-          </ConfigBox>
-        }
-      </AnimatePresence>
+      <SubjectConfig e={e} showConfig={showConfig} setShowConfig={setShowConfig} />
     </Container >
-
   );
 }
 
 export default Subject;
 
 
-const ConfigBox = styled(motion.div)`
-  grid-row: 2/3;
-  grid-column: 1/6;
-  overflow: hidden;
-`
+
 
 
 const Container = styled(motion.div)`
@@ -131,9 +128,10 @@ const Container = styled(motion.div)`
   font-weight: 400;
   display: grid;
   padding-bottom: 0.2rem;
+  row-gap: 0.2rem;
   grid-template-rows: 1fr auto;
   grid-template-columns: 2rem 4.5rem 4rem 1fr auto;
-  border-bottom: 1px solid ${({ theme }) => theme.color.lightGray}55;
+  border-bottom: 1px solid ${({ theme, showConfig }) => showConfig ? theme.color.main.color : theme.color.lightGray + '55'};
   place-items: center;
   position: relative;
 
@@ -197,9 +195,9 @@ const Buttons = styled.div`
 const ShowInfo = styled(ArrowDownIcon)`
   height: 0.9rem;
   margin: auto;
-  fill: ${({ theme }) => theme.color.white};
   cursor: pointer;
   transition: ${({ theme }) => theme.transition.main};
+  fill: ${({ theme, showConfig }) => showConfig ? theme.color.main.light : theme.color.white};
   &:hover{
     transform: translateY(15%);
     fill: ${({ theme }) => theme.color.main.light};
@@ -220,10 +218,11 @@ const DeleteIcon = styled(Trash)`
   }
 `
 
-const Name = styled.div`
+const Name = styled(motion.div)`
 width: 100%;
   overflow: hidden;
   position: relative;
+  font-size: 0.85rem;
   span{
     ${({ status, theme }) => {
 

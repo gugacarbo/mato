@@ -113,7 +113,7 @@ const GlobalStyle = createGlobalStyle`
     }
     body {
         font-family: 'Poppins', sans-serif;
-        font-weight: 300;
+        font-family: 'Comfortaa', sans-serif;
         background-color: ${({ theme }) => theme.background};
         color: ${({ theme }) => theme.color.white};
         overflow-x: hidden;
