@@ -1,4 +1,5 @@
 const common = {
+  shadown: "1px 1px 10px -5px ",
   shadow: "1px 1px 10px -5px #111",
   dropShadow: "0px 0px 2px #151618",
   sizes: {

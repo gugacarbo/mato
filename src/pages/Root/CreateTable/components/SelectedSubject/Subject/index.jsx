@@ -51,11 +51,13 @@ function Subject({ e, z, key }) {
     },
     animate: {
       opacity: 1,
+      height: "auto",
       x: "0%"
     },
     exit: {
       opacity: 0,
-      scaleY: 0,
+      height: 0,
+      margin: 0,
       transition: {
         duration: 0.2
       }
@@ -67,7 +69,10 @@ function Subject({ e, z, key }) {
     <Container {...growDownAnimation}
       style={z}
       showConfig={showConfig}
-      ref={containerRef}>
+      ref={containerRef}
+
+    >
+
 
       <ColorBox ref={colorRef}>
 
@@ -78,6 +83,27 @@ function Subject({ e, z, key }) {
           whileHover={status != 'cancelada' && {
             scale: 1.1
           }}
+
+          onMouseEnter={() => {
+            const hideCells = document.querySelectorAll(`.all-cells`)
+            hideCells.forEach(element => {
+              element.classList.add(`dim`)
+            });
+
+            const cells = document.querySelectorAll(`.cell-${e[0]}`)
+            cells.forEach(element => {
+              element.classList.remove(`dim`)
+            });
+
+
+          }}
+          onMouseLeave={() => {
+            const hideCells = document.querySelectorAll(`.all-cells`)
+            hideCells.forEach(element => {
+              element.classList.remove(`dim`)
+            });
+          }}
+
         >{showColorMenu && <XIcon />}</ColorDisplay>
 
         {showColorMenu &&
@@ -128,7 +154,6 @@ const Container = styled(motion.div)`
   font-weight: 400;
   display: grid;
   padding-bottom: 0.2rem;
-  row-gap: 0.2rem;
   grid-template-rows: 1fr auto;
   grid-template-columns: 2rem 4.5rem 4rem 1fr auto;
   border-bottom: 1px solid ${({ theme, showConfig }) => showConfig ? theme.color.main.color : theme.color.lightGray + '55'};
@@ -236,3 +261,11 @@ width: 100%;
   }
 `
 
+const Tag = styled.div`
+  font-size: 0.9em;
+  height: 100%;
+  padding: 0 0.5rem;
+  color: ${({ theme }) => theme.color.white};
+  background-color: ${({ theme }) => theme.color.red};
+
+`

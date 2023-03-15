@@ -24,10 +24,13 @@ function ClassInfo({ turma, showClass, setShowClass }) {
       <InfoContent>
         <span>horas-aula: {turma[1]}</span>
         <span>créditos: {turma[1] / 18}</span>
+      </InfoContent>
+      <Professors>
+        <b>Professores</b>
         {turma[8].map(professor =>
           <span>{professor}</span>
         )}
-      </InfoContent>
+      </Professors>
     </Info>
   );
 }
@@ -49,22 +52,49 @@ export default ClassInfo;
 
 const Info = styled(motion.div)`
   grid-column: 1/3;
-  display: flex;
   width: 100%;
   overflow: hidden;
-  flex-direction: column;
-`
-const InfoContent = styled.div`
-padding: 1rem;
   display: grid;
-  grid-template-columns: 1fr;
-`
+  grid-template-columns: 1fr 1fr;
+  row-gap: 0.4rem;
 
+`
 const Head = styled.div`
   width: 100%;
   padding: 0.1rem 1.6rem;
+  grid-column: 1/3;
+  grid-row: 1/2;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  color: ${({theme})=>theme.color.main.secondary}
+  color: ${({ theme }) => theme.color.main.secondary};
+  small{
+    font-weight: bold;
+    font-size: 0.8rem;
+  } 
 `
+
+const InfoContent = styled.div`
+  padding-left: 0.5rem;
+  padding-top: 0.5rem;
+  display: flex;
+  font-size: 0.9rem;
+  row-gap: 0.2rem;
+  flex-direction: column;
+  `
+const Professors = styled.div`
+padding-right: 0.5rem;
+padding-top: 0.5rem;
+  grid-column: 2/3;
+  display: flex;
+  flex-direction: column;
+  place-items: end center;
+  b{
+    margin-bottom: 0.2rem;
+    font-size: 0.9rem;
+  }
+    span{
+      font-size: 0.8rem;
+    }
+  `
+

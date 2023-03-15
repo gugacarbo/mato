@@ -43,6 +43,9 @@ const ConfigBox = styled(motion.div)`
   grid-gap: 1rem;
   place-items: center;
   grid-template-columns: 1fr;
+  background-color: ${({theme})=>theme.color.gray}aa;
+  border-radius: 4px;
+  margin-bottom: 0.3rem;
   grid-template-areas: 
   'name name name name'
   'turmas turmas turmas turmas'
@@ -65,7 +68,6 @@ const Turmas = styled.div`
   display: flex;
   width: 100%;
   flex-direction: column;
-  gap: 0.5rem;
   `
 
 /**

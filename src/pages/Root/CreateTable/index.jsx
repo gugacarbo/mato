@@ -34,6 +34,6 @@ const Container = styled(motion.div)`
     'table list'
   ;
   overflow: hidden;
-  row-gap: 1rem;
+  padding-bottom: 1rem;
 `
 

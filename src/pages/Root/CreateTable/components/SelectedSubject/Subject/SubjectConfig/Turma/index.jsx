@@ -13,7 +13,7 @@ import PlanContext from "../../../../../../../../context/PlanContext";
 function Turma({ turma, materia }) {
   const [showClass, setShowClass] = useState(false)
   const turmaRef = useDetectClickOutside({ onTriggered: () => setShowClass(false) });
-  const { turmas, colors, setTurma } = useContext(PlanContext)
+  const { turmas, colors, setTurma, setHovered } = useContext(PlanContext)
 
   let status = "ok";
 
@@ -31,10 +31,16 @@ function Turma({ turma, materia }) {
       ref={turmaRef}
       showClass={showClass}
       status={status}
+      onMouseEnter={() => {
+        setHovered(materia[0], turma)
+      }}
+      onMouseLeave={() => {
+        setHovered()
+      }}
     >
       <ClassRadio color={colors[materia[0]]}>
         <input
-          type="radio"
+          type="checkbox"
           name={`materia${materia[0]}`}
           checked={turmas[materia[0]] == turma}
           onClick={() => {
@@ -75,9 +81,11 @@ const ClassContainer = styled.div`
   display: grid;
   grid-template-columns: auto 1fr;
   width: 100%;
-  padding: 0.2rem;
-  border-bottom: 1px solid ${({ theme, showClass }) => showClass ? theme.color.main.color : theme.color.lightGray + '55'};
-   ${({ status }) => status == 'lotado' && `order: 1;`}
+  padding: 0.4rem;
+  border-radius: 0.1rem;
+  border-bottom: 1px solid ${({ theme, showClass }) => showClass ? theme.color.main.color : theme.color.darkGray};
+ 
+  ${({ status }) => status == 'lotado' && `order: 1;`}
    small{
     font-size: 0.75rem;
    }
@@ -94,7 +102,6 @@ const ClassCode = styled.span`
 
   b{
     color: ${({ theme, checked, color }) => checked ? color : theme.color.white};
-    font-weight: bolder;
     font-size: 0.9rem;
   }
   
@@ -104,7 +111,6 @@ const ClassCode = styled.span`
    align-items: center;
    gap: 0.5rem;
     i{
-  font-weight: bold;
   color: ${({ theme, status }) => {
     switch (status) {
       case 'lotando':
@@ -143,7 +149,7 @@ const ClassRadio = styled.label`
   border-radius: 50%;
   cursor: pointer;
   &:has(input:checked){
-    background-color: ${({ theme }) => theme.color.main.light};
+    background-color: ${({ color }) => color};
     box-shadow: 0 0 2px 0px  ${({ color }) => color};
   }
   input{

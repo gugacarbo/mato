@@ -37,6 +37,9 @@ function parseHorarios(texto) {
 
 
   } else {
+    return ({
+
+    })
     console.log("Não foi possível extrair as informações do texto.");
   }
 }

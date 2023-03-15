@@ -54,17 +54,21 @@ const times = [
 ]
 
 function WeekCalendar() {
-  const { turmas, materias, colors } = useContext(PlanContext)
+  const { turmas, materias, colors, hovered } = useContext(PlanContext)
   const [showAllTime, setShowAllTime] = useState(false)
 
   var usedTurmas = {}
+  let parsedTurmas
+  let parsedTurmas2
+
+
   materias.forEach((mat) => {
-    if (turmas[mat[0]]) {
+    if (turmas[mat[0]] && !hovered[mat[0]]) {
       usedTurmas[mat[0]] = turmas[mat[0]]
     }
   })
 
-  const parsedTurmas = Object.keys(usedTurmas).map(turma =>
+  parsedTurmas = Object.keys(usedTurmas).map(turma =>
     turmas[turma][7].map(horario => {
       const parsed = parseHorario(horario)
       parsed.nome = turma
@@ -72,6 +76,31 @@ function WeekCalendar() {
     })
   ).reduce((acc, val) => acc.concat(val), [])
     ?? []
+
+
+  if (Object.keys(hovered).length > 0) {
+    let usedTurmas2 = {}
+    Object.keys(hovered).forEach((mat) => {
+      usedTurmas2[mat] = hovered[mat]
+    })
+
+    parsedTurmas2 = Object.keys(usedTurmas2).map(turma =>
+      hovered[turma][7].map(horario => {
+        const parsed = parseHorario(horario)
+        parsed.nome = turma
+        return (parsed)
+      })
+    ).reduce((acc, val) => acc.concat(val), [])
+      ?? []
+    parsedTurmas = [
+      ...parsedTurmas,
+      ...parsedTurmas2,
+    ]
+  }
+
+
+
+
 
   const tableList = {}
   days.forEach((d) => {
@@ -127,16 +156,25 @@ function WeekCalendar() {
               const subjects = subCount > 2 ? [...tableList[dia][h]].slice(0, 2) : tableList[dia][h];
 
               const othersSubjects = subCount > 2 ?
-                [...tableList[dia][h]].slice(2).map(t => <HiddenSub color={colors[t.nome]}>{t.nome}</HiddenSub>) : [];
+                [...tableList[dia][h]].slice(2).map(t => <HiddenSub color={colors?.[t.nome]}>{t.nome}</HiddenSub>) : [];
               //Celulas
               return (
                 <SubjectBox key={`dia${dia}x${k}`} more={subCount > 2 ? subCount - 2 : ''}>
                   <ShowHiddenSubject>
                     {othersSubjects}
                   </ShowHiddenSubject>
-                  {subjects.map(tur =>
-                    <SubjectCell color={colors[tur.nome]}>{tur.nome}</SubjectCell>
+                  {subjects.map((tur, i) =>
+                    <SubjectCell className={`all-cells cell-${tur.nome} ${hovered[tur.nome] ? `shine` : ``}`} key={i} color={colors?.[tur.nome]}>
+                      {showAllTime ?
+                        `${tur.codigoDoDepartamento} - ${tur.codigoDaSala}${tur.numeroDaSala}` :
+                        tur.nome
+                      }
+                    </SubjectCell>
                   )}
+
+
+
+
                 </SubjectBox>
               )
             })
@@ -165,7 +203,7 @@ border: none;
 outline: none;
 cursor: pointer;
 svg{
-  width: 1.3rem;
+  width: 1.2rem;
   fill: ${({ theme, tp }) => tp == 'open' ? theme.color.white : theme.color.main.color + 'c7'};
 }
 `
@@ -201,6 +239,8 @@ const TbHeader = styled.div`
 display: flex;
 justify-content: center;
 color: ${({ theme }) => theme.color.main.secondary};
+font-size: 0.85rem;
+
 
 `
 const TbSideHeader = styled.div`
@@ -219,8 +259,8 @@ const TbSideHeader = styled.div`
 
 const HiddenSub = styled.div`
 background-color: ${({ color }) => color};
-color: ${({ color }) => {
-    return (colorsAll[color.toUpperCase()])
+color: ${({ color, theme }) => {
+    return color ? (colorsAll[color.toUpperCase()]) : theme.color.main.secondary
   }};
   padding: 0.4rem;
   font-weight: bold;
@@ -289,20 +329,40 @@ const SubjectBox = styled.div`
 const SubjectCell = styled.div`
   overflow: hidden;
 
-  background-color: ${({ color }) => color};
-  color: ${({ color }) => {
-    return (colorsAll[color.toUpperCase()])
+  background-color: ${({ color, theme }) => color ?? theme.color.main.secondary};
+  color: ${({ color, theme }) => {
+    return color ? (colorsAll[color.toUpperCase()]) : theme.color.white
   }};
   flex: 1;
   display: flex;
   justify-content:center;
   align-items: center;
-  font-size: 0.8rem;
+  font-size: 0.85rem;
+  transition: ${({ theme }) => theme.transition.fast};
+  letter-spacing: 0.6px;
+  &.shine{
+    background-color: ${({ theme }) => theme.color.white};
+
+    box-shadow: ${({ color, theme }) => `${theme.shadown} ${color ?? theme.color.white}`};    
+
+    border: 1px solid ${({ theme, color }) => color ?? theme.color.black}; 
+    color: ${({ color, theme }) => color ?? theme.color.black};   
+    
+    background-color: ${({ color, theme }) => {
+    return color ? (colorsAll[color.toUpperCase()]) : theme.color.white
+  }};
+
+  }
+  &.dim{
+    opacity: 0.2;
+    background-color: ${({ theme }) => theme.background};
+    color: ${({ theme }) => theme.color.white};    
+}
 `
 
 const Divider = styled.div`
   grid-column: 1/8;
-  padding: 1px 0;
+  padding: 0.55px 0;
   background-color: ${({ theme }) => theme.color.gray};
 
   grid-row: ${({ div }) => {

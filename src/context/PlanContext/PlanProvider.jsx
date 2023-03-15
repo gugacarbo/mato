@@ -19,8 +19,7 @@ export default ({ children }) => {
    */
   const [currentPlanName, setCurrentPlanName] = useState("plano_1")
   const [currentPlan, setCurrentPlan] = useState(plans[currentPlanName])
-
-
+  const [hovered, setHovered] = useState([])
 
   function addToPlan(materia) {
     if (currentPlan.materias.indexOf(materia) == -1) {
@@ -59,11 +58,31 @@ export default ({ children }) => {
 
   function setTurma(materia, turma) {
     const newTurmas = { ...currentPlan.turmas };
-    newTurmas[materia[0]] = turma;
+    if (newTurmas[materia[0]] == turma) {
+      newTurmas[materia[0]] = undefined;
+    } else {
+      newTurmas[materia[0]] = turma;
+    }
     const newPlan = { ...currentPlan, turmas: newTurmas };
     setCurrentPlan(newPlan);
   }
 
+  function handleSetHovered(mat = null, tur = null) {
+    if (mat == null) {
+      setHovered({})
+    } else {
+      setHovered(prev => {
+        let p = { ...prev }
+        p[mat] = tur;
+        return (p)
+      })
+    }
+  }
+
+  function setCombination(combination) {
+    const newPlan = { ...currentPlan, turmas: combination };
+    setCurrentPlan(newPlan);
+  }
 
   return (
     <PlanContext.Provider
@@ -76,7 +95,10 @@ export default ({ children }) => {
         setTurma,
         materias: currentPlan?.materias ?? [],
         colors: currentPlan?.colors ?? {},
-        turmas: currentPlan?.turmas ?? {}
+        turmas: currentPlan?.turmas ?? {},
+        hovered,
+        setHovered: handleSetHovered,
+        setCombination
       }}
     >
       {children}

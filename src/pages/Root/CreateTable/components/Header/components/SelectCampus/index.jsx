@@ -69,9 +69,12 @@ export default SelectCampus;
 
 
 const SelectCampusBox = styled(motion.div)`
+  grid-area: campus;
+
   display: flex;
   flex-direction: column;
   justify-content: center;
+  margin-left: auto;
   gap: 0.5rem;
   color: ${({ theme }) => theme.color.text};
   font-size: 1rem;
