@@ -12,8 +12,8 @@ import PlanContext from "../../../../../../../../context/PlanContext";
 
 function Turma({ turma, materia }) {
   const [showClass, setShowClass] = useState(false)
-  const turmaRef = useDetectClickOutside({ onTriggered: () => setShowClass(false) });
-  const { turmas, colors, setTurma, setHovered } = useContext(PlanContext)
+  const { turmas, colors, setTurma, setHovered, combination, disableClose } = useContext(PlanContext)
+  const turmaRef = useDetectClickOutside({ onTriggered: () => !disableClose && setShowClass(false) });
 
   let status = "ok";
 
@@ -23,6 +23,10 @@ function Turma({ turma, materia }) {
 
   if (turma[2] - turma[3] == 0 || turma[5] == 0) {
     status = "lotado"
+  }
+
+  if (combination?.[materia?.[0]]?.[0] == turma?.[0]) {
+    status = "combinacao"
   }
 
 
@@ -101,8 +105,24 @@ const ClassCode = styled.span`
    cursor: pointer;
 
   b{
-    color: ${({ theme, checked, color }) => checked ? color : theme.color.white};
     font-size: 0.9rem;
+    color: ${({ theme, status, color, checked }) => {
+
+
+    if (status == 'combinacao')
+      return (theme.color.main.secondary)
+
+    if (checked)
+      return (color ?? theme.color.white)
+
+    switch (status) {
+      case 'cancelada':
+        return theme.color.yellow;
+
+      default:
+        return (theme.color.white)
+    }
+  }};
   }
   
   span{

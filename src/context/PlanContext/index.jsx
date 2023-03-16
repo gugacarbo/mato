@@ -10,9 +10,15 @@ const PlanContext = createContext({
   materias: [],
   turmas: {},
   colors: {},
+  combination: {},
   setTurma: () => { },
   setHovered: () => { },
   setCombination: () => { },
+  disableClose: true,
+  setConfig: () => { },
+  config: {},
+  configLabels: {},
+
 });
 
 export default PlanContext;

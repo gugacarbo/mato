@@ -3,7 +3,7 @@ import { useContext } from "react";
 import PlanContext from "../../../../../context/PlanContext";
 import { AnimatePresence } from "framer-motion";
 import Subject from "./Subject";
-import { ReactComponent as GearSvg } from "../../../../../assets/gear.svg"
+import { ReactComponent as EllipsisSvg } from "../../../../../assets/ellipsis.svg"
 
 function SelectedSubject() {
   const { materias } = useContext(PlanContext)
@@ -15,7 +15,7 @@ function SelectedSubject() {
         <span>Cód</span>
         <span>Turma</span>
         <span>Nome</span>
-        <GearIcon />
+        <EllipsisIcon />
       </ListHeader>
       <Scroller>
         <AnimatePresence>
@@ -64,15 +64,11 @@ const ListHeader = styled.div`
   }
 `
 
-const GearIcon = styled(GearSvg)`
+const EllipsisIcon = styled(EllipsisSvg)`
   width: 3rem;
   margin-right: 0.25rem;
   padding: 0 1rem;
-  fill: ${({ theme }) => theme.color.white};
-  transition: ${({ theme }) => theme.transition.x3};
-  &:hover{
-    transform: rotateZ(90deg);
-  }
+  fill: ${({ theme }) => theme.color.white}99;
 `
 const Scroller = styled.div`
 display: flex;

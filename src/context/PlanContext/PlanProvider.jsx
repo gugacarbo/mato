@@ -20,6 +20,20 @@ export default ({ children }) => {
   const [currentPlanName, setCurrentPlanName] = useState("plano_1")
   const [currentPlan, setCurrentPlan] = useState(plans[currentPlanName])
   const [hovered, setHovered] = useState([])
+  const [combination, setCombination] = useState({})
+  const [config, setConfig] = useState({
+    agrupar: true,
+    ignorarConflito: false,
+    ignorarCheias: true,
+    // ignorarCanceladas: true,
+  })
+
+  const configLabels = {
+    agrupar: 'Agrupar Horários Iguais',
+    ignorarConflito: 'Ignorar Conflitos de Horários',
+    ignorarCheias: "Ignorar Turmas Cheias",
+    // ignorarCanceladas: true,
+  }
 
   function addToPlan(materia) {
     if (currentPlan.materias.indexOf(materia) == -1) {
@@ -78,11 +92,13 @@ export default ({ children }) => {
       })
     }
   }
-
-  function setCombination(combination) {
-    const newPlan = { ...currentPlan, turmas: combination };
+  function handleSetCombination(newCombination) {
+    const newPlan = { ...currentPlan, turmas: newCombination };
     setCurrentPlan(newPlan);
+    setCombination(newCombination)
   }
+
+
 
   return (
     <PlanContext.Provider
@@ -98,7 +114,12 @@ export default ({ children }) => {
         turmas: currentPlan?.turmas ?? {},
         hovered,
         setHovered: handleSetHovered,
-        setCombination
+        setCombination: handleSetCombination,
+        combination,
+        disableClose: false,
+        config,
+        setConfig,
+        configLabels
       }}
     >
       {children}

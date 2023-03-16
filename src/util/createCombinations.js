@@ -1,63 +1,4 @@
 
-const validarElementos = (elemento, combinacao, obj) => {
-  const keys = Object.keys(obj);
-  const grupo = keys.find(key => obj[key].includes(elemento));
-  return !combinacao.hasOwnProperty(grupo);
-};
-
-const validarElemento = (elemento, combinacao, obj) => {
-  const keys = Object.keys(obj);
-  const grupo = keys.find(key => obj[key].includes(elemento));
-
-
-  if (combinacao.hasOwnProperty(grupo)) {
-    console.log("jáTem")
-    return false;
-  }
-
-  const horarios = elemento?.[7]
-  let valid = true;
-  horarios.forEach(hor => {
-
-    const [
-      _,
-      dia,
-      hora_inicio,
-      aulas_seguidas
-    ] = /^(\d{1}).(\d{4})\-(\d{1})/g.exec(hor);
-
-
-    let valid2 = true;
-    for (let key in combinacao) {
-      // if (key !== grupo) continue;
-      const aulas = combinacao[key][7];
-      aulas.forEach(aula => {
-        const [
-          _,
-          aula_dia,
-          aula_hora_inicio,
-          aula_aulas_seguidas
-        ] = aula.match(/^(\d{1}).(\d{4})\-(\d{1})/)
-        if (aula_dia == dia) {
-          // console.log("dia igual");
-          if (aula_hora_inicio == hora_inicio) {
-            // console.log("mema dia mema hora")
-            // console.log("", hora_inicio)
-            valid2 = false;
-            return false;
-          }
-          if (temChoque(hora_inicio, aulas_seguidas, aula_hora_inicio, aula_aulas_seguidas)) {
-            valid2 = false;
-            return false;
-          }
-        }
-      })
-    }
-    valid = valid2
-  })
-  return valid;
-};
-
 const tratar = (arr) => {
   const obj = {};
 
@@ -65,77 +6,6 @@ const tratar = (arr) => {
     obj[materia[0]] = materia[3]
   });
   return obj;
-}
-
-
-function gerarCombinacoes(obj_) {
-  const obj = tratar(obj_);
-
-  const keys = Object.keys(obj);
-
-  let resultados = [[]];
-  for (let i = 0; i < keys.length; i++) {
-    const key = keys[i];
-    const subarr = obj[key];
-    const tmp = [];
-    for (let j = 0; j < resultados.length; j++) {
-      const resultado = resultados[j];
-      for (let k = 0; k < subarr.length; k++) {
-        const elemento = subarr[k];
-        if (validarElemento(elemento, resultado, obj)) {
-          tmp.push({ ...resultado, [key]: elemento });
-        }
-      }
-    }
-    resultados = tmp;
-  }
-  return resultados;
-}
-
-export default gerarCombinacoes
-
-const days = [
-  "Seg",
-  "Ter",
-  "Qua",
-  "Qui",
-  "Sex",
-  "Sab",
-]
-
-const horarioList = [
-  "0730",
-  "0820",
-  "0910",
-  "1010",
-  "1100",
-  "1330",
-  "1420",
-  "1510",
-  "1620",
-  "1710",
-  "1830",
-  "1920",
-  "2020",
-  "2110",
-]
-// Noturno
-
-
-function nextClassTime(horario, numero = 1) {
-  if (numero >= 0 && numero < horarioList.length) {
-    const indice = horarioList.indexOf(horario);
-
-    if (indice !== -1) {
-      const indiceHorario = indice + numero;
-
-      if (indiceHorario >= 0 && indiceHorario < horarioList.length) {
-        return horarioList[indiceHorario];
-      }
-    }
-  }
-
-  return null;
 }
 
 function horarioNumerico(horario) {
@@ -151,10 +21,151 @@ function temChoque(horario1, aulas1, horario2, aulas2) {
   const fim1 = horarioNumerico(horario1) + duracao1;
   const fim2 = horarioNumerico(horario2) + duracao2;
 
-  //  console.log('is',(horarioNumerico(horario2) ))
-  //  console.log('is',fim1)
-  //  console.log('is',horarioNumerico(horario2) < fim1)
+
+
 
   return (horarioNumerico(horario2) <= fim1 && fim1 <= fim2) ||
     (horarioNumerico(horario1) <= fim2 && fim2 <= fim1);
 }
+
+//TODO --------------------------
+const validarElemento = (elemento, combinacao, obj, opt) => {
+
+  const ignorarConflito = opt.ignorarConflito
+  const ignorarCheias = opt.ignorarCheias
+
+  const keys = Object.keys(obj);
+  const grupo = keys.find(key => obj[key].includes(elemento));
+
+  if (combinacao.hasOwnProperty(grupo)) {
+    return false;
+  }
+
+
+  let cheia = false;
+  if (ignorarCheias) {
+    if (elemento[2] - elemento[3] == 0 || elemento[5] == 0) {
+      cheia = true
+    }
+    if (cheia) {
+      return (false)
+    }
+  }
+
+
+  if (ignorarConflito) {
+    return (true)
+  }
+
+
+  //Se Algum Horário do Elemento =>
+  return !elemento?.[7].some(esseHorario => {
+    const [
+      _,
+      dia,
+      hora_inicio,
+      aulas_seguidas
+    ] = /^(\d{1}).(\d{4})\-(\d{1})/g.exec(esseHorario);
+    //Se nenhuma turma da combinação =>
+    return Object.keys(combinacao).some((nomeOutraTurma) =>
+      combinacao[nomeOutraTurma][7].some(outroHorario => {
+        //para cada horario da combinação => 
+        const [
+          _2,
+          outra_aula_dia,
+          outra_aula_inicio,
+          outra_aula_aulas_seguidas
+        ] = /^(\d{1}).(\d{4})\-(\d{1})/g.exec(outroHorario);
+
+        //se dias diferentes = "valido"
+        if (dia != outra_aula_dia) {
+          return (false)
+        }
+        if (temChoque(hora_inicio, aulas_seguidas, outra_aula_inicio, outra_aula_aulas_seguidas)) {
+          //tem choque de horario
+          return (true);
+        }
+
+        // válido
+        return (false);
+      })
+    )
+  })
+}
+
+
+
+function agruparTurmas(materias) {
+
+  const newMaterias = {}
+  Object.keys(materias).forEach(nome_materia => {
+    const oldMat = [...materias[nome_materia]]
+
+    const newTurmas = oldMat.reduce((turmas_acumulador, essaTurma) => {
+      const essesHorarios =
+        essaTurma[7].map(tt => /^(\d{1}.\d{4})/g.exec(tt)?.[1])
+
+      const temigual = turmas_acumulador.some((outraTurma) => {
+        const outrosHorarios = outraTurma[7].map(tt => /^(\d{1}.\d{4})/g.exec(tt)?.[1])
+        if (JSON.stringify(essesHorarios) == JSON.stringify(outrosHorarios)) {
+          return (true);
+        }
+        return (false);
+      })
+
+      if (temigual) {
+        return turmas_acumulador
+      }
+
+      return [...turmas_acumulador, essaTurma]
+    }, [])
+    newMaterias[nome_materia] = newTurmas
+  })
+
+  return newMaterias;
+}
+
+
+function gerarCombinacoes(obj_, opt) {
+  // const obj = tratar(obj_);
+  const agrupar = opt?.agrupar ?? true
+  const ignorarConflito = opt?.ignorarConflito ?? false
+
+  const ignorarCanceladas = opt?.ignorarCanceladas ?? true
+  const ignorarCheias = opt?.ignorarCheias ?? true
+
+  const config = {
+    agrupar,
+    ignorarConflito,
+    ignorarCanceladas,
+    ignorarCheias,
+  }
+
+  let obj = tratar(obj_);
+
+  if (agrupar) {
+    obj = agruparTurmas(obj);
+  }
+
+  const keys = Object.keys(obj);
+
+  let resultados = [[]];
+  for (let i = 0; i < keys.length; i++) {
+    const key = keys[i];
+    const subarr = obj[key];
+    const tmp = [];
+    for (let j = 0; j < resultados.length; j++) {
+      const resultado = resultados[j];
+      for (let k = 0; k < subarr.length; k++) {
+        const elemento = subarr[k];
+        if (validarElemento(elemento, resultado, obj, config)) {
+          tmp.push({ ...resultado, [key]: elemento });
+        }
+      }
+    }
+    resultados = tmp;
+  }
+  return resultados;
+}
+
+export default gerarCombinacoes

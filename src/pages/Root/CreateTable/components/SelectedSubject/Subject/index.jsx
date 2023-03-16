@@ -24,22 +24,21 @@ function Subject({ e, z, key }) {
     status = 'cancelada'
   }
 
-  const { removeFromPlan, setColor, colors, turmas, setTurma } = useContext(PlanContext)
+  const { removeFromPlan, setColor, colors, turmas, setTurma, disableClose } = useContext(PlanContext)
 
   const [color, setCurrentColor] = useState(colors?.[e?.[0]] ?? Object.keys(AllColors)[parseInt(Math.random() * Object.keys(AllColors).length)])
-  const [turma, setCurrentTurma] = useState(turmas?.[e?.[0]] ?? e[3][0])
   const [showColorMenu, setShowColorMenu] = useState(false)
 
   const [showConfig, setShowConfig] = useState(false)
 
-  const colorRef = useDetectClickOutside({ onTriggered: () => setShowColorMenu(false) });
-  const containerRef = useDetectClickOutside({ onTriggered: () => setShowConfig(false) });
+  const colorRef = useDetectClickOutside({ onTriggered: () => !disableClose && setShowColorMenu(false) });
+  const containerRef = useDetectClickOutside({ onTriggered: () => !disableClose && setShowConfig(false) });
 
 
   useEffect(() => {
 
     if (!turmas?.[e?.[0]]) {
-      setTurma(e, turma)
+      setTurma(e, turmas?.[e?.[0]] ?? e[3][0])
     }
 
   }, [e])
@@ -122,7 +121,7 @@ function Subject({ e, z, key }) {
       >{e[0]}</b>
       <i
         onClick={() => setShowConfig(prev => !prev)}
-      >{turma[0]}</i>
+      >{turmas[e?.[0]]?.[0]}</i>
 
       <Name
         animate={{
