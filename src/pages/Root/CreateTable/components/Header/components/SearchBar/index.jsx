@@ -19,10 +19,11 @@ function SearchBar() {
   const { currentCampusData } = useContext(DataContext)
 
 
-  const [excludeSearch, setExcludeSearch] = useState([])
+  // const [excludeSearch, setExcludeSearch] = useState([])
 
   useEffect(() => {
     setShowAll(false)
+    // eslint-disable-next-line react-hooks/exhaustive-deps  
   }, [searchTerm])
 
   let filteredList =
@@ -32,21 +33,21 @@ function SearchBar() {
         KEYS_TO_FILTERS
       ))
 
-  if (excludeSearch.length > 0) {
+  // if (excludeSearch.length > 0) {
 
-    excludeSearch.forEach(excludeTerm => {
-      let excludelist =
-        filteredList.filter(
-          createFilter(
-            excludeTerm,
-            ['1', '2']
-          ))
+  //   excludeSearch.forEach(excludeTerm => {
+  //     let excludelist =
+  //       filteredList.filter(
+  //         createFilter(
+  //           excludeTerm,
+  //           ['1', '2']
+  //         ))
 
-      excludelist.forEach(exclude => {
-        filteredList.splice(filteredList.indexOf(exclude), 1);
-      })
-    })
-  }
+  //     excludelist.forEach(exclude => {
+  //       filteredList.splice(filteredList.indexOf(exclude), 1);
+  //     })
+  //   })
+  // }
 
 
 

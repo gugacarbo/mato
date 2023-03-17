@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import Div100vh from "react-div-100vh"
-import { useContext, useState } from 'react'
+import { useContext } from 'react'
 import { AnimatePresence } from "framer-motion";
 import DataContext from "../../context/DataContext";
 import SelectCampus from "./SelectCampus";

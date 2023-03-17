@@ -59,10 +59,7 @@ const Name = styled(motion.span)`
   font-family: "Comfortaa";
   width: 100%;
   `
-const Code = styled.span`
-  grid-area: code;
-  font-size: 0.85rem;
-`
+
 const Turmas = styled.div`
   grid-area: turmas;
   display: flex;

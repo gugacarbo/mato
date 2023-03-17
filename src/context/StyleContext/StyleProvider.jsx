@@ -5,7 +5,7 @@ import StyleContext from "./index";
 import Themes from "../../Style/Themes";
 import GlobalStyle from "../../Style/GlobalStyle";
 
-export default ({ children }) => {
+const StyleProvider = ({ children }) => {
   const [theme, setTheme] = useState(Themes.dark);
   const themeName = import.meta.env.VITE_SITE_SHORTNAME;
   const handleSetTheme = (theme_) => {
@@ -39,6 +39,8 @@ export default ({ children }) => {
         handleSetTheme("light");
       }
     }
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps  
   }, []);
 
   return (
@@ -56,3 +58,6 @@ export default ({ children }) => {
     </StyleContext.Provider>
   );
 };
+
+
+export default StyleProvider

@@ -5,6 +5,7 @@ function parseHorarios(texto) {
 
   if (gruposDeCaptura !== null) {
     const [
+      // eslint-disable-next-line
       _,
       diaDaSemana,
       horarioDaPrimeiraAula,
@@ -38,9 +39,7 @@ function parseHorarios(texto) {
 
   } else {
     return ({
-
     })
-    console.log("Não foi possível extrair as informações do texto.");
   }
 }
 export default parseHorarios

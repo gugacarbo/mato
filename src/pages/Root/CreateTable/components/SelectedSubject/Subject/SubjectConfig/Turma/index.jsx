@@ -9,6 +9,8 @@ import { useContext, useState } from 'react'
 import PlanContext from "../../../../../../../../context/PlanContext";
 
 
+import AllColors from '../../../../../../../../util/colors'
+
 
 function Turma({ turma, materia }) {
   const [showClass, setShowClass] = useState(false)
@@ -107,21 +109,16 @@ const ClassCode = styled.span`
   b{
     font-size: 0.9rem;
     color: ${({ theme, status, color, checked }) => {
-
-
-    if (status == 'combinacao')
-      return (theme.color.main.secondary)
-
-    if (checked)
-      return (color ?? theme.color.white)
-
-    switch (status) {
-      case 'cancelada':
-        return theme.color.yellow;
-
-      default:
-        return (theme.color.white)
+    if (status == 'cancelada') {
+      return (theme.color.red)
     }
+    if (checked) {
+      if (status == 'combinacao') {
+        return (theme.color.main.secondary)
+      }
+      return (`${color}; text-shadow: ${theme.color?.[AllColors[color]] ?? theme.color.white}de 0px 0px 3px ` ?? theme.color.white)
+    }
+    return (theme.color.white)
   }};
   }
   

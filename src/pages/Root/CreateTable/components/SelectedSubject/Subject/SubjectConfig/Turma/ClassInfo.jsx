@@ -1,12 +1,8 @@
 import styled from "styled-components";
 import { motion } from "framer-motion";
-import { useContext, useState } from 'react'
 
-import PlanContext from "../../../../../../../../context/PlanContext";
+function ClassInfo({ turma, showClass }) {
 
-function ClassInfo({ turma, showClass, setShowClass }) {
-
-  const { turmas } = useContext(PlanContext)
   return (
     <Info
       initial={{

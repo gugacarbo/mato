@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { useContext, useState, useEffect } from 'react'
+import { useContext, useState } from 'react'
 import DataContext from "../../../../../../../context/DataContext";
 import ReactSelect, { components } from 'react-select'
 import { ReactComponent as ArrowDownSvg } from '../../../../../../../assets/arrow_down.svg'

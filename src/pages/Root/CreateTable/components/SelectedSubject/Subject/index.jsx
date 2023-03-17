@@ -5,7 +5,7 @@ import { GithubPicker } from 'react-color'
 import styled from "styled-components";
 import { useContext, useState, useEffect } from "react";
 import PlanContext from "../../../../../../context/PlanContext";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { useDetectClickOutside } from 'react-detect-click-outside';
 
 import AllColors from "../../../../../../util/colors"
@@ -32,7 +32,7 @@ function Subject({ e, z, key }) {
   const [showConfig, setShowConfig] = useState(false)
 
   const colorRef = useDetectClickOutside({ onTriggered: () => !disableClose && setShowColorMenu(false) });
-  const containerRef = useDetectClickOutside({ onTriggered: () => !disableClose && setShowConfig(false) });
+  const containerRef = useDetectClickOutside({ onTriggered: () => false && !disableClose && setShowConfig(false) });
 
 
   useEffect(() => {
@@ -40,7 +40,7 @@ function Subject({ e, z, key }) {
     if (!turmas?.[e?.[0]]) {
       setTurma(e, turmas?.[e?.[0]] ?? e[3][0])
     }
-
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [e])
 
   const growDownAnimation = {
@@ -258,13 +258,4 @@ width: 100%;
     text-overflow: ellipsis;
 
   }
-`
-
-const Tag = styled.div`
-  font-size: 0.9em;
-  height: 100%;
-  padding: 0 0.5rem;
-  color: ${({ theme }) => theme.color.white};
-  background-color: ${({ theme }) => theme.color.red};
-
 `

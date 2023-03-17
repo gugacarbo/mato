@@ -18,6 +18,7 @@ function SelectCampus() {
       setCurrentCampus(options[1] ?? options[0] ?? {})
       setCampus(options[1] ?? options[0] ?? {})
     }, 200);
+        // eslint-disable-next-line react-hooks/exhaustive-deps  
   }, [map])
 
   const DropdownIndicator = (

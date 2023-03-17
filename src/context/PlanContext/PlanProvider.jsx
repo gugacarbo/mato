@@ -4,23 +4,42 @@ import PlanContext from "./index";
 import AllColors from "../../util/colors";
 import planModel from "./planModel";
 
-export default ({ children }) => {
-  const [plans, setPlans] = useState(planModel);
-  /**
-    const model = {
-    plano_1: {
-      materias: [],
-      colors: {},
-      turmas: {
-        "MTM3110": "01002"
-      },
-    }
-  }
-   */
+const PlanProvider = ({ children }) => {
+  const [plans, setPlans] = useState({
+    plano_1: planModel
+  });
   const [currentPlanName, setCurrentPlanName] = useState("plano_1")
-  const [currentPlan, setCurrentPlan] = useState(plans[currentPlanName])
   const [hovered, setHovered] = useState([])
   const [combination, setCombination] = useState({})
+
+  const localKey = "MATO_Planos"
+
+  const currentPlan = plans[currentPlanName];
+
+  function setCurrentPlan(newPlan) {
+    const oldPlans = { ...plans }
+    oldPlans[currentPlanName] = newPlan
+    setPlans(oldPlans)
+  }
+
+  useEffect(() => {
+    const localPlans = localStorage.getItem(localKey);
+    if (localPlans) {
+      const p = JSON.parse(localPlans)
+      setPlans(p);
+      setCurrentPlanName(Object.keys(p)[0])
+    }
+  }, [])
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      localStorage.setItem(localKey, JSON.stringify(plans));
+    }, 400);
+    return () => clearTimeout(timer)
+  }, [plans])
+
+
+
   const [config, setConfig] = useState({
     agrupar: true,
     ignorarConflito: false,
@@ -100,6 +119,51 @@ export default ({ children }) => {
 
 
 
+  function changeName(oldName, newName) {
+    if (!oldName || oldName == "" || !newName || newName == "") {
+      return (false);
+    }
+    const oldPlans = { ...plans }
+    const oldNamed = oldPlans[oldName]
+    delete oldPlans[oldName];
+    oldPlans[newName] = oldNamed;
+
+
+    setPlans(oldPlans)
+    if (currentPlanName == oldName) {
+      setCurrentPlanName(newName)
+    }
+    console.log(oldPlans)
+  }
+
+
+  function createPlan() {
+    function verifyName(n) {
+      let x = 1;
+      while (plans[`plano_${x}`]) {
+        x++
+      }
+      return (`plano_${x}`)
+    }
+    const newPlans = { ...plans }
+    newPlans[verifyName(1)] = planModel
+    setPlans(newPlans)
+  }
+
+  function deletePlan(planName) {
+    const oldPlans = { ...plans }
+    delete oldPlans[planName];
+    setPlans(oldPlans)
+
+    if (Object.keys(oldPlans).length == 0) {
+      oldPlans['plano_1'] = planModel
+    }
+
+    if (currentPlanName == planName) {
+      setCurrentPlanName(Object.keys(oldPlans)[0])
+    }
+  }
+
   return (
     <PlanContext.Provider
       value={{
@@ -107,6 +171,7 @@ export default ({ children }) => {
         removeFromPlan,
         plans,
         currentPlan,
+        currentPlanName,
         setColor,
         setTurma,
         materias: currentPlan?.materias ?? [],
@@ -119,10 +184,16 @@ export default ({ children }) => {
         disableClose: false,
         config,
         setConfig,
-        configLabels
+        configLabels,
+        changeName,
+        changePlan: setCurrentPlanName,
+        createPlan,
+        deletePlan
       }}
     >
       {children}
     </PlanContext.Provider>
   );
 };
+
+export default PlanProvider

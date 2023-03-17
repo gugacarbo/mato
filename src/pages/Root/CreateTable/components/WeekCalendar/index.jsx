@@ -371,7 +371,7 @@ const Divider = styled.div`
         return (`7/8`)
       case 2:
         return (`13/14`)
-      case 3:
+      default:
         return (`18/19`)
     }
   }};

@@ -61,21 +61,23 @@ const validarElemento = (elemento, combinacao, obj, opt) => {
   //Se Algum Horário do Elemento =>
   return !elemento?.[7].some(esseHorario => {
     const [
+      // eslint-disable-next-line   
       _,
       dia,
       hora_inicio,
       aulas_seguidas
-    ] = /^(\d{1}).(\d{4})\-(\d{1})/g.exec(esseHorario);
+    ] = /^(\d{1}).(\d{4})-(\d{1})/g.exec(esseHorario);
     //Se nenhuma turma da combinação =>
     return Object.keys(combinacao).some((nomeOutraTurma) =>
       combinacao[nomeOutraTurma][7].some(outroHorario => {
         //para cada horario da combinação => 
         const [
+          // eslint-disable-next-line   
           _2,
           outra_aula_dia,
           outra_aula_inicio,
           outra_aula_aulas_seguidas
-        ] = /^(\d{1}).(\d{4})\-(\d{1})/g.exec(outroHorario);
+        ] = /^(\d{1}).(\d{4})-(\d{1})/g.exec(outroHorario);
 
         //se dias diferentes = "valido"
         if (dia != outra_aula_dia) {

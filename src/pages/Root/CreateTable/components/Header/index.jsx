@@ -3,6 +3,7 @@ import { ReactComponent as MatoLogo } from '../../../../../assets/logo.svg'
 import CombinationsBar from "./components/CombinationsBar";
 import SearchBar from "./components/SearchBar";
 import SelectCampus from "./components/SelectCampus";
+import PlansBar from "./components/PlansBar";
 
 
 function Header() {
@@ -16,6 +17,7 @@ function Header() {
         </Name>
       </LogoBox>
       <SearchBar />
+      <PlansBar />
       <CombinationsBar />
       <SelectCampus />
     </HeaderContainer>
@@ -32,11 +34,11 @@ const HeaderContainer = styled.header`
   padding-top: 0.5rem;
   grid-area: header;
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: auto auto auto;
   row-gap: 0.6rem;
   grid-template-areas: 
-  'logo campus'
-  'search combinations '
+  'logo .  campus'
+  'search plans combinations '
   ;
 `
 const LogoBox = styled.div`

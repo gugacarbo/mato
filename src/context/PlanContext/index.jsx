@@ -2,6 +2,8 @@ import { createContext } from "react";
 import planModel from './planModel'
 const PlanContext = createContext({
   plans: {},
+  currentPlanName: "",
+  changeCurrentName: () => { },
   currentPlan: planModel,
   setCurrentPlan: () => { },
   addToPlan: () => { },
@@ -16,6 +18,10 @@ const PlanContext = createContext({
   setCombination: () => { },
   disableClose: true,
   setConfig: () => { },
+  changeName: () => { },
+  createPlan: () => { },
+  deletePlan: () => { },
+  changePlan: () => { },
   config: {},
   configLabels: {},
 
