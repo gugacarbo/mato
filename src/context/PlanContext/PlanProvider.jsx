@@ -130,10 +130,7 @@ const PlanProvider = ({ children }) => {
 
 
     setPlans(oldPlans)
-    if (currentPlanName == oldName) {
-      setCurrentPlanName(newName)
-    }
-    console.log(oldPlans)
+    setCurrentPlanName(newName)
   }
 
 
