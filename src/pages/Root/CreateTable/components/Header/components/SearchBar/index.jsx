@@ -12,7 +12,7 @@ import { ReactComponent as SearchIcon } from '../../../../../../../assets/search
 function SearchBar() {
   const [searchTerm, setSearchTerm] = useState("")
   const [showAll, setShowAll] = useState(false);
-  const KEYS_TO_FILTERS = ['1', '0']
+  const KEYS_TO_FILTERS = ['1', '0', '2']
 
   const { addToPlan } = useContext(PlanContext)
   const [openList, setOpenList] = useState(false)

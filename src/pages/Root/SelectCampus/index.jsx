@@ -13,13 +13,19 @@ function SelectCampus() {
 
   const options = !map?.campus ? [] : map.campus.map(c => ({ value: c[0], label: c[1] })).reverse()
 
+  const flp = {
+    label: "Florianópolis",
+    value: "FLO"
+  }
   useEffect(() => {
     setTimeout(() => {
-      setCurrentCampus(options[1] ?? options[0] ?? {})
-      setCampus(options[1] ?? options[0] ?? {})
+      setCurrentCampus(options[flp] ? flp : options[4] ?? options[0] ?? {})
+      //setCampus(options[flp] ? flp : options[4] ?? options[0] ?? {})
     }, 200);
-        // eslint-disable-next-line react-hooks/exhaustive-deps  
+    // eslint-disable-next-line react-hooks/exhaustive-deps  
   }, [map])
+
+
 
   const DropdownIndicator = (
     props

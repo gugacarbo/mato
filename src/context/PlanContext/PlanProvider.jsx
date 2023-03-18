@@ -42,8 +42,8 @@ const PlanProvider = ({ children }) => {
 
   const [config, setConfig] = useState({
     agrupar: true,
-    ignorarConflito: false,
     ignorarCheias: true,
+    ignorarConflito: false,
     // ignorarCanceladas: true,
   })
 
@@ -62,7 +62,6 @@ const PlanProvider = ({ children }) => {
       if (!currentPlan.colors[materia[0]]) {
         currentPlan.colors[materia[0]] = Object.keys(AllColors)[parseInt(Math.random() * Object.keys(AllColors).length)];
       }
-
       if (!currentPlan.turmas[materia[0]]) {
         currentPlan.turmas[materia[0]] = materia[3][0];
       }
