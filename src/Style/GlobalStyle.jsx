@@ -115,7 +115,7 @@ const GlobalStyle = createGlobalStyle`
         font-family: 'Comfortaa', sans-serif;
         font-family: 'Poppins','Comfortaa',  sans-serif;
         background-color: ${({ theme }) => theme.background};
-        color: ${({ theme }) => theme.color.white};
+        color: ${({ theme }) => theme.text};
         overflow-x: hidden;
 
         &::-webkit-scrollbar {

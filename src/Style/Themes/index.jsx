@@ -1,7 +1,8 @@
 import dark from "./dark";
 import light from "./light";
+import contrast from "./contrast";
 import common from "./common";
-const themes =  {
+const themes = {
   dark: {
     ...common,
     ...dark,
@@ -9,7 +10,10 @@ const themes =  {
   light: {
     ...common,
     ...light,
-    ...dark,
   },
+  // contrast: {
+  //   ...common,
+  //   ...contrast,
+  // },
 };
 export default themes;

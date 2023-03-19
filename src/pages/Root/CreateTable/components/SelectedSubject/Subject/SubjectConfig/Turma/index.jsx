@@ -4,7 +4,7 @@ import { useDetectClickOutside } from "react-detect-click-outside";
 
 import { ReactComponent as ArrowDownSvg } from '../../../../../../../../assets/arrow_down.svg'
 
-import { useContext, useState } from 'react'
+import { useContext, useState, useEffect } from 'react'
 
 import PlanContext from "../../../../../../../../context/PlanContext";
 
@@ -30,6 +30,12 @@ function Turma({ turma, materia }) {
   if (combination?.[materia?.[0]]?.[0] == turma?.[0]) {
     status = "combinacao"
   }
+
+  useEffect(() => {
+    if (!turmas?.[materia[0]]) {
+      setTurma(materia, turma)
+    }
+  }, [])
 
 
   return (
@@ -116,9 +122,9 @@ const ClassCode = styled.span`
       if (status == 'combinacao') {
         return (theme.color.main.secondary)
       }
-      return (`${color}; text-shadow: ${theme.color?.[AllColors[color]] ?? theme.color.white}de 0px 0px 3px ` ?? theme.color.white)
+      return (`${color}; text-shadow: ${theme.color?.[AllColors[color]] ?? theme.text}de 0px 0px 3px ` ?? theme.text)
     }
-    return (theme.color.white)
+    return (theme.text)
   }};
   }
   
@@ -128,14 +134,16 @@ const ClassCode = styled.span`
    align-items: center;
    gap: 0.5rem;
     i{
+      font-weight:bold;
+      font-style: normal;
   color: ${({ theme, status }) => {
     switch (status) {
       case 'lotando':
-        return theme.color.yellow;
+        return theme.color.orange;
       case 'lotado':
         return theme.color.red;
       default:
-        return theme.color.white
+        return theme.text
     }
   }};
     }
@@ -143,7 +151,7 @@ const ClassCode = styled.span`
 
   svg{
     width: 0.8rem;
-    fill: ${({ theme }) => theme.color.white};
+    fill: ${({ theme }) => theme.text};
     cursor: pointer;
     &:hover{
       fill: ${({ theme }) => theme.color.main.lighter};

@@ -1,79 +1,87 @@
 import styled from "styled-components";
-import { useState, useContext, useEffect } from "react";
+import { useState, useContext } from "react";
 
-import PlanContext from "../../../../../../../context/PlanContext";
 import { ReactComponent as ArrowDownSvg } from "../../../../../../../assets/arrow_down.svg";
+import PlanContext from "../../../../../../../context/PlanContext";
 import PlanList from "./PlanList";
 
 
 function PlansBar() {
-  const { currentPlanName, plans, changeCurrentName } = useContext(PlanContext)
-  // const options = Object.keys(plans).map(c => ({ value: c, label: c }))
-
+  const { currentPlanName } = useContext(PlanContext)
   const [openList, setOpenList] = useState(false)
 
-
   return (
-    <BarContent>
+    <PlanBarContent openList={openList}>
       <span>Plano: </span>
-      <InputName >
-        <PlanList openList={openList} setOpenList={setOpenList} />
+      <CurrentPlanName onClick={() => setOpenList(prev => !prev)}>
         {currentPlanName}
-
-      </InputName>
-      <Button
+      </CurrentPlanName>
+      <OpenListButton
         onClick={() => setOpenList(prev => !prev)}
+        openList={openList}
       >
         <ArrowDownSvg />
-      </Button>
-    </BarContent>);
+      </OpenListButton>
+      <PlanList openList={openList} />
+    </PlanBarContent>);
 }
 
 export default PlansBar;
 
-const BarContent = styled.div`
-  grid-area:plans;
+const PlanBarContent = styled.div`
+  grid-area: plans;
+  position: relative;
   z-index: 2;
   display: flex;
   align-items: center;
+  justify-content: center;
+    width: fit-content;
   gap: 1rem;
-
+  padding: 0rem 1rem;
+  margin: 0 auto;
+  
+  background-color: ${({ theme }) => theme.backgroundMedium};
+  box-shadow: 1px 1px 4px -0px ${({ theme, openList }) => openList ? theme.color.main.color : theme.color.main.light + '8d'};
 `
 
 
-const InputName = styled.span`
-min-width: 12rem;
-width: fit-content;
-  background-color: transparent;
-  text-align: center;
-  border: none;
-  outline: none;
-  max-width: 20rem;
-  color: ${({ theme }) => theme.color.white};
-  font-size: 1rem;
-  padding: 0.1rem 2rem;
-  border-bottom: 1px solid ${({ theme }) => theme.color.main.light};
-  position: relative;
+const CurrentPlanName = styled.span`
   display: flex;
   justify-content: center;
   align-items: center;
+  
+  min-width: 12rem;
+  width: fit-content;
+  max-width: 20rem;
 
+  padding: 0.1rem 2rem;
+  
+  background-color: transparent;
+  color: ${({ theme }) => theme.text};
+  
+  text-align: center;
+  border: none;
+  outline: none;
+  font-size: 1rem;
 `
-const Button = styled.button`
-    background-color: transparent;
+
+const OpenListButton = styled.button`
+  
+  background-color: transparent;
   border: none;
   outline: none;
   cursor: pointer;
+  
   svg{
-    fill: ${({ theme }) => theme.color.white};
-    transition: ${({ theme }) => theme.transition.main};
     width: 1rem;
+    fill: ${({ theme, openList }) => openList ? theme.color.main.light : theme.color.white};
+    
+    transition: ${({ theme }) => theme.transition.main};
+    transform: ${({ openList }) => `rotate(${openList ? 180 : 0}deg)`};
   }
-  &:hover{
-    svg{
+  &:hover svg{
+    fill: ${({ theme }) => theme.color.main.light};
+  }
 
-      fill: ${({ theme }) => theme.color.main.light};
-    }
-  }
 `
 

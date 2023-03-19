@@ -1,36 +1,60 @@
 import styled from "styled-components";
-import Div100vh from "react-div-100vh"
 import { useContext } from 'react'
-import { AnimatePresence } from "framer-motion";
 import DataContext from "../../context/DataContext";
 import SelectCampus from "./SelectCampus";
 import CreateTable from "./CreateTable";
+import { AnimatePresence, motion } from "framer-motion";
 
-
+import { ReactComponent as LogoSvg } from '../../assets/logo.svg'
 function Root() {
-  const { campus } = useContext(DataContext)
+  const { campus, map } = useContext(DataContext)
   return (
-    <Container>
-      <AnimatePresence mode="popLayout">
-        {JSON.stringify(campus) == "{}" ? <SelectCampus key="Scamp" /> : <CreateTable key="CTbl" />}
-      </AnimatePresence>
-    </Container>
+    <AnimatePresence mode="popLayout">
+      {
+        !map?.createDate ?
+          <Loading key="Load" /> :
+          JSON.stringify(campus) == "{}" ?
+            <SelectCampus key="Scamp" /> :
+            <CreateTable key="CTbl" />
+      }
+    </AnimatePresence>
   );
 }
 export default Root;
 
-
-
-
-const Container = styled(Div100vh)`
-  width: 100vw;
-  max-height: 100vw;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  position: relative;
-  overflow: hidden;
+const Loading = () => {
+  return (
+    <LogoBox
+      initial={{
+        scale: 1,
+        opacity: 1
+      }}
+      animate={{
+        opacity: 1,
+        scale: 1
+      }}
+      exit={{
+        scale: 0,
+        opacity: 0,
+      }}
+      transition={{
+        type: "spring",
+        duration: 0.8,
+      }}
+    >
+      <Logo />
+    </LogoBox>)
+}
+const LogoBox = styled(motion.div)`
+  width: 100%;
+  height: 100%;
+  display: grid;
+  place-items: center;
+  z-index: 10;
+  pointer-events: none;
+ 
 `
-
-
+const Logo = styled(LogoSvg)`
+  max-height: 30%;
+  max-width: 30%;
+`

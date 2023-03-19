@@ -33,23 +33,6 @@ function SearchBar() {
         KEYS_TO_FILTERS
       ))
 
-  // if (excludeSearch.length > 0) {
-
-  //   excludeSearch.forEach(excludeTerm => {
-  //     let excludelist =
-  //       filteredList.filter(
-  //         createFilter(
-  //           excludeTerm,
-  //           ['1', '2']
-  //         ))
-
-  //     excludelist.forEach(exclude => {
-  //       filteredList.splice(filteredList.indexOf(exclude), 1);
-  //     })
-  //   })
-  // }
-
-
 
   let searchLength = filteredList.length;
 
@@ -105,18 +88,25 @@ function SearchBar() {
 
 export default SearchBar;
 
-const SearchBox = styled.div`
+const SearchBox = styled.label`
 
 grid-area: search;
+z-index:5;
 
 display: flex;
 justify-content: center;
-align-items: flex-end;
+align-items: center;
 margin-top: auto;
-background-color: ${({ theme }) => theme.color.darkGray};
-border: 0.5px solid ${({ theme }) => theme.color.main.darker}77;
-padding: 0.35rem 0.8rem;
-border-radius: 50px;
+background-color: ${({ theme }) => theme.backgroundMedium};
+/* border: 0.5px solid ${({ theme }) => theme.color.main.medium}77;
+ */
+box-shadow: 1px 1px 4px -0px ${({ theme }) => theme.color.main.light}8d;
+
+&:has(input:focus){
+  box-shadow: 1px 1px 4px -0px ${({ theme }) => theme.color.main.color};
+}
+padding: 0.3rem 0.8rem;
+border-radius: 5px;
 font-size: 0.9rem;
 transition:${({ theme }) => theme.transition.main};
 position: relative;
@@ -129,7 +119,7 @@ span{
   font-size: 0.9rem;
 }
 svg{
-    fill: ${({ theme }) => theme.color.lightGray};
+    fill: ${({ theme }) => theme.textLight};
     height: 1.6rem;
     right: 0.6rem;
     transition:${({ theme }) => theme.transition.main};
@@ -150,20 +140,20 @@ svg{
   
 input{
   width: 100%;
-  padding: 0.2rem 0.3rem;
+  padding: 0.1rem 0.3rem;
   border: none;
-  /* border-bottom: 1px solid  ${({ theme }) => theme.color.white}; */
+  border-bottom: 1.5px solid  ${({ theme }) => theme.color.main.light};
   outline: none;
   font-size: 0.9rem;
   /* background-color: ${({ theme }) => theme.color.white}; */
   background-color: transparent;
-  border-radius: 3px;
+  /* border-radius: 3px; */
   font-weight: bold;
-  color: ${({ theme }) => theme.color.white};
-  background-color: ${({ theme }) => theme.color.mediumGray};
-
+  color: ${({ theme }) => theme.text};
+  
   &::placeholder{
     color: ${({ theme }) => theme.color.lightGray}aa;
+    color: ${({ theme }) => theme.color.main.lighter}9a;
   }
 }
 `

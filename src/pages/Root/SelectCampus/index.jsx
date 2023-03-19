@@ -17,10 +17,10 @@ function SelectCampus() {
     label: "Florianópolis",
     value: "FLO"
   }
+
   useEffect(() => {
     setTimeout(() => {
       setCurrentCampus(options[flp] ? flp : options[4] ?? options[0] ?? {})
-      //setCampus(options[flp] ? flp : options[4] ?? options[0] ?? {})
     }, 200);
     // eslint-disable-next-line react-hooks/exhaustive-deps  
   }, [map])
@@ -46,6 +46,9 @@ function SelectCampus() {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
+      transition={{
+        duration: 1,
+      }}
     >
       <span>Campus</span>
       <Select
@@ -96,16 +99,20 @@ export default SelectCampus;
 
 
 const SelectCampusBox = styled(motion.div)`
-position: absolute;
+  position: absolute;
+
   display: flex;
   justify-content: center;
   align-items: center;
-  color: ${({ theme }) => theme.color.text};
-  font-size: 2rem;
   gap: 1rem;
+  
+  color: ${({ theme }) => theme.text};
+  
+  font-size: 2rem;
+  
   span{
-    color: ${({ theme }) => theme.color.text};
-  font-size: 1.8rem;
+    color: ${({ theme }) => theme.text};
+    font-size: 1.8rem;
   }
 
 `
@@ -115,32 +122,29 @@ const StyledDrop = styled(components.DropdownIndicator)`
   justify-content: center;
   align-items: center;
   overflow: hidden;
+  
   svg{
-
-    transform: ${({ menuOpen }) => menuOpen ? `rotateX(180deg)` : `rotateX(0deg)`};
     width: 1.7rem;
     height: 1.7rem;
-    fill: #fefefe;
+    fill: ${({ theme }) => theme.text};
+
+    transform: ${({ menuOpen }) => menuOpen ? `rotateX(180deg)` : `rotateX(0deg)`};
   }
 `
 
 
 const Select = styled(ReactSelect)`
-min-width: 150px;
-font-size: 2.3rem;
-color: ${({ theme }) => theme.color.text};
-/* background-color: #ff0; */
+  min-width: 150px;
+  font-size: 2.3rem;
+  color: ${({ theme }) => theme.text};
 
   & .s__control {
-cursor: pointer;
-
+    cursor: pointer;
     border: none;
     background-color: transparent;
-    /* flex-direction: row-reverse; */
-
+    
     &:hover{
       box-shadow: none;
-      
     }
 
     &.s__control--is-focused{
@@ -152,36 +156,30 @@ cursor: pointer;
       padding: 0;
       & .s__input-container {
         text-align: center;
-      color: ${({ theme }) => theme.color.text};
-    }
+        color: ${({ theme }) => theme.text};
+      }
       &.s__value-container--has-value {
         & .s__single-value{
-        text-align: center;
-
-          /* color: ${({ theme }) => theme.color.text}; */
+          text-align: center;
           color: ${({ theme }) => theme.color.main.light};
         }
-      }
-    }
-
-
-    & .s__indicator  {
-      &.s__dropdown-indicator  {
       }
     }
   }
   & .s__menu{
     font-size: 1.5rem;
-    box-shadow: none;
     border-radius: 10px;
+    box-shadow: none;
+
     overflow: hidden;
+    
     & .s__menu-list{
       padding: 0;
       border-radius: 0px;
       & .s__option{
-        border-radius: 0px;
-        color: ${({ theme }) => theme.color.black};
         text-align: center;
+        color: ${({ theme }) => theme.color.black};
+        border-radius: 0px;
           &:hover{
           color: ${({ theme }) => theme.color.white};
           background-color: ${({ theme }) => theme.color.main.color};
@@ -191,37 +189,36 @@ cursor: pointer;
           background-color: ${({ theme }) => theme.color.main.darker};
         }
       }
-      & .s__menu-notice{
-      }
     }
   }
 `
 
 
 const NextButton = styled(motion.button)`
-background-color: transparent;
-display: flex;
+  display: flex;
   justify-content: center;
   align-items: center;
-border: none;
-outline:none;
+  gap: 0.3rem;
+  
+  background-color: transparent;
+  border: none;
+  outline:none;
 
-gap: 0.3rem;
-cursor  :pointer ;
-span{
-  font-size: 1.8rem;
-}
-svg{
-  width: 2rem;
-  transform: rotateZ(-90deg);
-  aspect-ratio: 1;
-  fill: ${({ theme }) => theme.color.text};
-}
+  cursor: pointer ;
+  span{
+    font-size: 1.8rem;
+  }
+
+  svg{
+    width: 2rem;
+    transform: rotateZ(-90deg);
+    aspect-ratio: 1;
+    fill: ${({ theme }) => theme.text} !important;
+  }
 `
 
 
 const NotingFound = styled.small`
   font-size: 1rem;
   white-space: nowrap;
-
 `

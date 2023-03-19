@@ -197,16 +197,7 @@ function WeekCalendar() {
 
 export default WeekCalendar;
 
-const MotionEye = styled(motion.button)`
-background-color: transparent;
-border: none;
-outline: none;
-cursor: pointer;
-svg{
-  width: 1.2rem;
-  fill: ${({ theme, tp }) => tp == 'open' ? theme.color.white : theme.color.main.color + 'c7'};
-}
-`
+
 
 const Container = styled.div`
 grid-area: table;
@@ -218,6 +209,7 @@ align-items: center;
 overflow: hidden;
 position: relative;
 padding: 1rem;
+z-index: 1;
 `
 
 const Table = styled.div`
@@ -240,6 +232,7 @@ display: flex;
 justify-content: center;
 color: ${({ theme }) => theme.color.main.secondary};
 font-size: 0.85rem;
+font-weight: bold;
 
 
 `
@@ -254,40 +247,18 @@ const TbSideHeader = styled.div`
     color: ${({ theme }) => theme.color.main.secondary}aa;
 
   }
+font-weight: bold;
   
   `
-
-const HiddenSub = styled.div`
-background-color: ${({ color }) => color};
-color: ${({ color, theme }) => {
-    return color ? (colorsAll[color.toUpperCase()]) : theme.color.main.secondary
-  }};
-  padding: 0.4rem;
-  font-weight: bold;
-`
-
-
-const ShowHiddenSubject = styled.label`
-    position: absolute;
-    top: 0.5rem;
-    opacity: 0;
-    pointer-events: none;
-    left: 100%;
-    z-index: 10;
-    flex-direction: column;
-    overflow: hidden;
-    background-color: ${({ theme }) => theme.color.white};
-    box-shadow: ${({ theme }) => theme.shadow};
-    color: ${({ theme }) => theme.color.black};
-    transition: ${({ theme }) => theme.transition.main};
-    
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 0.7rem;
-    font-family: 'Comfortaa';
-    font-weight:400;
-    z-index: 100;
+const MotionEye = styled(motion.button)`
+background-color: transparent;
+border: none;
+outline: none;
+cursor: pointer;
+svg{
+  width: 1.2rem;
+  fill: ${({ theme, tp }) => tp == 'open' ? theme.text : theme.color.main.color + 'c7'};
+}
 `
 
 const SubjectBox = styled.div`
@@ -295,8 +266,9 @@ const SubjectBox = styled.div`
   justify-content:center;
   align-items: center;
   flex-direction: column;
-  background-color: #555;
   position: relative;
+  background-color: ${({ theme }) => theme.backgroundMedium};
+
   row-gap: 0.1rem;
   &:has(label):hover label{
   opacity: 1;
@@ -359,6 +331,43 @@ const SubjectCell = styled.div`
     color: ${({ theme }) => theme.color.white};    
 }
 `
+
+
+
+const HiddenSub = styled.div`
+
+background-color: ${({ color }) => color};
+color: ${({ color, theme }) => {
+    return color ? (colorsAll[color.toUpperCase()]) : theme.color.main.secondary
+  }};
+  padding: 0.4rem;
+  font-weight: bold;
+`
+
+
+const ShowHiddenSubject = styled.label`
+    position: absolute;
+    top: 0.5rem;
+    opacity: 0;
+    pointer-events: none;
+    left: 100%;
+    z-index: 1;
+    flex-direction: column;
+    overflow: hidden;
+    background-color: ${({ theme }) => theme.color.white};
+    box-shadow: ${({ theme }) => theme.shadow};
+    color: ${({ theme }) => theme.text};
+    transition: ${({ theme }) => theme.transition.main};
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 0.7rem;
+    font-family: 'Comfortaa';
+    font-weight:400;
+    z-index: 100;
+`
+
 
 const Divider = styled.div`
   grid-column: 1/8;

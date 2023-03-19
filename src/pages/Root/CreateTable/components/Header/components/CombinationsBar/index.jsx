@@ -30,23 +30,24 @@ function CombinationsBar() {
     // eslint-disable-next-line react-hooks/exhaustive-deps  
   }, [currentComb])
 
+  const combCount = Object.keys(combinations).length
 
   return (
-    <CombinationsBox openConfig={openConfig}>
+    <CombinationsBox openConfig={openConfig} empty={combCount == 0}>
       Combinações
       <Button
         onClick={() => {
-          setCurrentComb(prev => prev - 1 >= 1 ? prev - 1 : Object.keys(combinations).length ?? 0)
+          setCurrentComb(prev => prev - 1 >= 1 ? prev - 1 : combCount ?? 0)
         }}
       ><ArrowSvg /></Button>
-      {currentComb}/{Object.keys(combinations).length}
+      {currentComb}/{combCount}
       <Button
         right
         onClick={() => {
-          setCurrentComb(prev => prev + 1 <= Object.keys(combinations).length ? prev + 1 : Object.keys(combinations).length ? 1 : 0)
+          setCurrentComb(prev => prev + 1 <= combCount ? prev + 1 : combCount ? 1 : 0)
         }}
       ><ArrowSvg /></Button>
-      <GearOpen onClick={() => setOpenConfig(prev => !prev)} />
+      <GearOpen openConfig={openConfig} onClick={() => setOpenConfig(prev => !prev)} />
       <Config openConfig={openConfig} setOpenConfig={setOpenConfig} />
     </CombinationsBox>);
 }
@@ -63,30 +64,32 @@ const CombinationsBox = styled.div`
   position: relative;
   gap: 1rem;
   width: 100%;
-
+  button{
+    cursor: ${({ empty }) => empty ? `not-allowed` : `pointer`};
+  }
 `
 
 const GearOpen = styled(GearSvg)`
       width: 1.3rem;
-    fill: ${({ theme }) => theme.color.white};
-    transition: ${({ theme }) => theme.transition.x3};
+    fill: ${({ theme }) => theme.text};
+    transition: ${({ theme }) => theme.transition.x2};
     cursor: pointer;
-    transform: rotateZ(${({ openConfig }) => openConfig ? '90deg' : ' 0deg'});
+    transform: rotateZ(${({ openConfig }) => openConfig ? '120deg' : ' 0deg'});
     &:hover{
-      transform: rotateZ(${({ openConfig }) => openConfig ? '90deg' : '-25deg'});
+      transform: rotateZ(${({ openConfig }) => openConfig ? '100deg' : '20deg'});
       fill: ${({ theme }) => theme.color.main.lighter};
     }
 `
 
 const Button = styled.button`
-      width: 2rem;
-    height: 2rem;
+     width: 1.8rem;
+    height: 1.8rem;
     display: flex;
     justify-content: center;
     align-items: center;
     color: ${({ theme }) => theme.color.white};
-    background-color: ${({ theme }) => theme.color.darkGray};
-    border: 1px solid ${({ theme }) => theme.color.gray};
+    background-color: ${({ theme }) => theme.text};
+    border: none;
     font-size: 1rem;
     outline: none;
   border-radius: 0.2rem;
@@ -94,9 +97,9 @@ const Button = styled.button`
   cursor: pointer;
     svg{
       transition: ${({ theme }) => theme.transition.main};
-        width: 0.8rem;
+        height: 60%;
        transform: ${({ right }) => right ? `rotate(90deg)` : `rotate(-90deg)`};
-      fill: ${({ theme }) => theme.color.white};
+      fill: ${({ theme }) => theme.textInverse};
       }
       &:hover{
         svg{

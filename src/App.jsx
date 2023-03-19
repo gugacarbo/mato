@@ -1,9 +1,10 @@
 import AppContextProvider from "./context/AppContextProvider";
-import Root from "./pages/Root";
+import RouterProvider from "./Router";
+
 function App() {
   return (
     <AppContextProvider>
-      <Root />
+      <RouterProvider />
     </AppContextProvider>
   );
 }

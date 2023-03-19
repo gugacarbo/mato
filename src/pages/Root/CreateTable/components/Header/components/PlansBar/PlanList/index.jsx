@@ -7,8 +7,9 @@ import PlanItem from "./PlanItem";
 
 function PlanList({ openList }) {
   const { plans, createPlan } = useContext(PlanContext)
+  let options = [];
 
-  const options = Object.keys(plans).map(c => c)
+  options = Object.keys(plans).map(c => c)
 
   return (
     <List
@@ -22,7 +23,7 @@ function PlanList({ openList }) {
         height: 0
       }}
     >
-      <ListContent>
+      <ListContent >
         {options.map(item => <PlanItem item={item} />)}
       </ListContent>
       <AddItem onClick={() => createPlan()}>
@@ -34,36 +35,41 @@ function PlanList({ openList }) {
 
 export default PlanList;
 
+const List = styled(motion.div)`
+border-radius: 3px;
+position: absolute;
+top: calc(100% + 0.5rem);
+color: ${({ theme }) => theme.text};
+background-color: ${({ theme }) => theme.backgroundDark};
+  overflow: hidden;
+  
+`
+
+const ListContent = styled.div`
+padding: 0rem 0;
+display: flex;
+flex-direction: column;
+align-items: center;
+`
+
+
+
 const AddItem = styled.button`
 border: none;
 outline: none;
 background-color: transparent;
-color: ${({ theme }) => theme.color.white};
 font-size: 0.9rem;
 font-weight: 400;
 font-size: 'Poppins';
 padding: 0.5rem 0;
 width: 100%;
 
+transition: ${({ theme }) => theme.transition.fast};
+color: ${({ theme }) => theme.color.white};
+  margin-top: 2px;
 cursor: pointer;
 &:hover{
-  background-color: #ddd;
+  background-color: ${({ theme }) => theme.color.main.darker};
   }
-`
-
-const List = styled(motion.div)`
-border-radius: 3px;
-position: absolute;
-top: calc(100% + 0.5rem);
-color: ${({ theme }) => theme.color.white};
-background-color: ${({ theme }) => theme.color.mediumGray};
-  overflow: hidden;
-`
-
-const ListContent = styled.div`
-padding: 1rem 0;
-display: flex;
-flex-direction: column;
-align-items: center;
 `
 

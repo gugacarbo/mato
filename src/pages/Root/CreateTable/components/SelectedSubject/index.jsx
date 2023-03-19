@@ -11,8 +11,8 @@ function SelectedSubject() {
   return (
     <Container>
       <ListHeader>
-        <span>Cor</span>
-        <span>Cód</span>
+        <span></span>
+        <small>Cód</small>
         <span>Turma</span>
         <span>Nome</span>
         <EllipsisIcon />
@@ -33,34 +33,44 @@ export default SelectedSubject;
 
 
 const Container = styled.div`
-grid-area: list;
-display: flex;
-width: 98%;
-height: 98%;
-margin: 1%;
-flex-direction: column;
-align-items: center;
-background-color: ${({ theme }) => theme.color.lightGray}22;
-box-shadow: 2px 2px 13px -5px ${({ theme }) => theme.color.main.light}8d;
-border-radius: 10px;
-overflow: hidden;
-z-index: 1;
-position: relative;
+  grid-area: list;
+  width: 98%;
+  height: 98%;
+  margin: 1%;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  
+  z-index: 1;
+  position: relative;
+  
+  overflow: hidden;
+  
+  border-radius: 10px;
+  background-color: ${({ theme }) => theme.color.backgroundLight}22;
+  box-shadow: 1px 1px 8px -0px ${({ theme }) => theme.color.main.light}8d;
 `
 
 const ListHeader = styled.div`
-  width: 100%;
-  background-color: ${({ theme }) => theme.color.gray};
-  border-bottom: 1px solid ${({ theme }) => theme.color.main.darker};
-  padding:  0.6rem;
   display: grid;
   grid-template-columns: 100%;
   grid-template-columns: 2rem 4.5rem 4rem 1fr auto;
   place-items: center;
   
-  span{
-    font-size: 0.85rem;
+  width: 100%;
+  padding:  0.6rem;
+  
+  background-color: ${({ theme }) => theme.backgroundDarker};
+  border-bottom: 1px solid ${({ theme }) => theme.color.main.color};
+  small{
+  color: ${({ theme }) => theme.color.white};
 
+  }
+  span{
+  color: ${({ theme }) => theme.color.white};
+
+    font-size: 0.85rem;
   }
 `
 
@@ -71,16 +81,17 @@ const EllipsisIcon = styled(EllipsisSvg)`
   fill: ${({ theme }) => theme.color.white}99;
 `
 const Scroller = styled.div`
-display: flex;
-flex-direction: column;
-align-items: center;
-grid-gap: 0.3rem;
-row-gap: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  grid-gap: 0.3rem;
+  row-gap: 0.5rem;
+  
   width: 100%;
+  height: 100%;
+  padding: 0.6rem;
+  padding-top: 0.5rem;
+  
   overflow-x: hidden;
   overflow-y: auto;
-  height: 100%;
-padding: 0.6rem;
-
-padding-top: 0.5rem;
 `

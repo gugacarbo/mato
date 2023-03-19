@@ -167,6 +167,9 @@ function gerarCombinacoes(obj_, opt) {
     }
     resultados = tmp;
   }
+  if (JSON.stringify(resultados) === "[[]]") {
+    return ([])
+  }
   return resultados;
 }
 

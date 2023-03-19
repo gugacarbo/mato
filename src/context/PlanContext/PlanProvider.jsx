@@ -116,25 +116,37 @@ const PlanProvider = ({ children }) => {
     setCombination(newCombination)
   }
 
-
-
   function changeName(oldName, newName) {
-    if (!oldName || oldName == "" || !newName || newName == "") {
-      return (false);
+    if (typeof oldName !== 'string' || oldName === '' || oldName === null ||
+      typeof newName !== 'string' || newName === '' || newName === null ||
+      oldName === newName) {
+      return false;
     }
+
     const oldPlans = { ...plans }
-    const oldNamed = oldPlans[oldName]
+
+
+    const oldNamed = oldPlans[oldName] ?? planModel
     delete oldPlans[oldName];
     oldPlans[newName] = oldNamed;
 
 
+    if (oldPlans.hasOwnProperty(oldName)) {
+      Object.defineProperty(
+        oldPlans,
+        newName,
+        Object.getOwnPropertyDescriptor(oldPlans, oldName)
+      );
+      delete oldPlans[oldName];
+    }
     setPlans(oldPlans)
     setCurrentPlanName(newName)
   }
 
 
+
   function createPlan() {
-    function verifyName(n) {
+    function verifyName(n = 1) {
       let x = 1;
       while (plans[`plano_${x}`]) {
         x++
@@ -143,20 +155,27 @@ const PlanProvider = ({ children }) => {
     }
     const newPlans = { ...plans }
     newPlans[verifyName(1)] = planModel
-    setPlans(newPlans)
+    setPlans({ ...newPlans })
+    if (Object.keys(newPlans).length == 1) {
+      setCurrentPlanName(Object.keys(newPlans)[0])
+    }
+    return ({ ...newPlans })
   }
 
   function deletePlan(planName) {
-    const oldPlans = { ...plans }
+    let oldPlans = { ...plans }
     delete oldPlans[planName];
-    setPlans(oldPlans)
 
     if (Object.keys(oldPlans).length == 0) {
-      oldPlans['plano_1'] = planModel
-    }
-
-    if (currentPlanName == planName) {
-      setCurrentPlanName(Object.keys(oldPlans)[0])
+      setPlans({
+        'plano_1': planModel
+      })
+      setCurrentPlanName('plano_1')
+    } else {
+      setPlans(oldPlans)
+      if (currentPlanName == planName) {
+        setCurrentPlanName(Object.keys(oldPlans)[0])
+      }
     }
   }
 

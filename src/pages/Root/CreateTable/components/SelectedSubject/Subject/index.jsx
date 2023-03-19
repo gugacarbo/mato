@@ -69,7 +69,6 @@ function Subject({ e, z, key }) {
       style={z}
       showConfig={showConfig}
       ref={containerRef}
-
     >
 
 
@@ -155,7 +154,7 @@ const Container = styled(motion.div)`
   padding-bottom: 0.2rem;
   grid-template-rows: 1fr auto;
   grid-template-columns: 2rem 4.5rem 4rem 1fr auto;
-  border-bottom: 1px solid ${({ theme, showConfig }) => showConfig ? theme.color.main.color : theme.color.lightGray + '55'};
+  border-bottom: 2px solid ${({ theme, showConfig }) => showConfig ? theme.color.main.color : theme.color.lightGray + '55'};
   place-items: center;
   position: relative;
 
@@ -221,7 +220,7 @@ const ShowInfo = styled(ArrowDownIcon)`
   margin: auto;
   cursor: pointer;
   transition: ${({ theme }) => theme.transition.main};
-  fill: ${({ theme, showConfig }) => showConfig ? theme.color.main.light : theme.color.white};
+  fill: ${({ theme, showConfig }) => showConfig ? theme.color.main.light : theme.text};
   &:hover{
     transform: translateY(15%);
     fill: ${({ theme }) => theme.color.main.light};

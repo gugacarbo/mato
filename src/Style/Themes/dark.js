@@ -1,9 +1,17 @@
 const theme = {
   name: "dark",
   background: "#222222",
+  backgroundLight: "#6a6a6d",
+  backgroundMedium: "#343434",
+  backgroundDark: "#222222",
+  backgroundDarker: "#181404",
+  backgroundInverse: "#e8eee4",
+  text: "#fbfbf2",
+  text2: "#403e39",
+  textLight: "#ededed",
+  textInverse: "#040002",
+
   color: {
-    text: "#fbfbf2",
-    inverseText: "#040002",
     black: "#040002",
     white: "#fbfbf2",
     lightGray: "#d9d5d4",
@@ -12,6 +20,7 @@ const theme = {
     darkGray: "#1c1c16",
     green: "#2ecc71",
     yellow: "#ffff00",
+    orange: "#ff8c00",
     red: "#e74c3c",
     main: {
       darker: "#df3a00",

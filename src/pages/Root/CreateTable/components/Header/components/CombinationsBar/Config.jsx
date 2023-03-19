@@ -54,7 +54,7 @@ const ConfigContainer = styled(motion.div)`
   position: absolute;
   background-color: ${({ theme }) => theme.background};
   border-radius: 0.5rem;
-  box-shadow: ${({ theme }) => `${theme.shadown} ${theme.color.white},${theme.shadown} ${theme.color.main.light}`}77;
+  box-shadow: ${({ theme }) => `${theme.shadown} ${theme.color.white},${theme.shadown} ${theme.color.main.color}`};
 `
 const Content = styled.div`
   padding: 1rem 2rem;
@@ -97,18 +97,21 @@ const ToggleBox = styled.label`
   aspect-ratio: 2;
 
   border-radius: 50px;
-  background-color: ${({ theme }) => theme.color.gray};
-  border: 1px solid ${({ theme }) => theme.color.lightGray}44;
+  border: 1px solid ${({ theme }) => theme.backgroundMedium};
   transition: ${({ theme }) => theme.transition.main};
+  background-color: ${({ theme }) => theme.backgroundLight};
+
   cursor: pointer;
   position: relative;
+
   &::after{
     content: "";
     position: absolute;
     transition: ${({ theme }) => theme.transition.main};
+  background-color: ${({ theme }) => theme.backgroundDark};
+
     height: calc(100%);
     aspect-ratio: 1;
-    background-color: ${({ theme }) => theme.color.lightGray};
     border-radius: 50%;
     top:0;
     left: 0px;

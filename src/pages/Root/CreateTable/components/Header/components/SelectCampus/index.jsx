@@ -76,17 +76,20 @@ const SelectCampusBox = styled(motion.div)`
   justify-content: center;
   margin-left: auto;
   gap: 0.5rem;
-  color: ${({ theme }) => theme.color.text};
+  color: ${({ theme }) => theme.text};
   font-size: 1rem;
   z-index: 100;
   span{
-    color: ${({ theme }) => theme.color.text};
+    color: ${({ theme }) => theme.text};
     font-size: 1rem;
   }
   label{
     display: flex;
     align-items: center;
     gap: 0.5rem;
+    span{
+
+    }
     b{
       width: 6rem;
       text-align: center;
@@ -115,7 +118,7 @@ const StyledDrop = styled(components.DropdownIndicator)`
 const Select = styled(ReactSelect)`
 min-width: 9rem;
 font-size: 1rem;
-color: ${({ theme }) => theme.color.text};
+color: ${({ theme }) => theme.text};
 /* background-color: #ff0; */
 
   & .s__control {
@@ -139,14 +142,14 @@ cursor: pointer;
       padding: 0;
       & .s__input-container {
         text-align: center;
-      color: ${({ theme }) => theme.color.text};
+      color: ${({ theme }) => theme.text};
     }
       &.s__value-container--has-value {
 
         & .s__single-value{
         text-align: center;
 
-          /* color: ${({ theme }) => theme.color.text}; */
+          /* color: ${({ theme }) => theme.text}; */
           color: ${({ theme }) => theme.color.main.light};
         }
       }

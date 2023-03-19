@@ -91,6 +91,7 @@ padding-top: 0.5rem;
   }
     span{
       font-size: 0.8rem;
+      text-align: right;
     }
   `
 

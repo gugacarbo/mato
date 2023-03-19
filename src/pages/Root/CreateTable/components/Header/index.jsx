@@ -4,6 +4,7 @@ import CombinationsBar from "./components/CombinationsBar";
 import SearchBar from "./components/SearchBar";
 import SelectCampus from "./components/SelectCampus";
 import PlansBar from "./components/PlansBar";
+import ThemeToggler from "./components/ThemeToggler";
 
 
 function Header() {
@@ -20,6 +21,7 @@ function Header() {
       <PlansBar />
       <CombinationsBar />
       <SelectCampus />
+      <ThemeToggler />
     </HeaderContainer>
   );
 }
@@ -34,10 +36,12 @@ const HeaderContainer = styled.header`
   padding-top: 0.5rem;
   grid-area: header;
   display: grid;
-  grid-template-columns: auto auto auto;
+  grid-template-columns: 1fr 1fr auto;
   row-gap: 0.6rem;
+  margin-bottom: 0.5rem;
+  z-index: 2;
   grid-template-areas: 
-  'logo .  campus'
+  'logo theme  campus'
   'search plans combinations '
   ;
 `

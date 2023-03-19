@@ -13,10 +13,9 @@ function PlanItem({ item }) {
   const [newName, setNewName] = useState(item)
 
   return (
-    <ItemContent
-      onClick={() => changePlan(item)}
-    >
+    <ItemContent>
       <ItemName
+        onClick={() => changePlan(item)}
         editing={edit}
         as={edit ? 'input' : 'span'}
         value={newName}
@@ -40,25 +39,17 @@ function PlanItem({ item }) {
 
 export default PlanItem;
 
-const EditSave = styled(PencilSvg)`
-  fill:${({ editing, theme }) => editing ? theme.color.green : theme.color.white};
-    width: 1rem;
- `
-const Delete = styled(TrashSvg)`
-  fill:${({ editing, theme }) => editing ? theme.color.red : theme.color.white};
-  width: 1rem;
-`
 
 const ItemContent = styled.div`
   width: 100%;
   padding: 0.4rem 1rem;
   font-size: 0.9rem;
   display: flex;
-  grid-gap: 0.6rem;
+  grid-gap: 0.4rem;
   overflow: hidden;
-  background-color: ${({ theme }) => theme.color.darkGray};
+  background-color: ${({ theme }) => theme.backgroundDark};
   &:nth-child(even){
-    background-color: ${({ theme }) => theme.color.mediumGray};
+    background-color: ${({ theme }) => theme.backgroundMedium};
 
   }
 `
@@ -68,7 +59,7 @@ const ItemName = styled.input`
   outline: none;
   text-align: left;
   background-color: transparent;
-  color: ${({ theme }) => theme.color.white};
+  color: ${({ theme }) => theme.text};
   font-size: 0.9rem;
   font-weight: 400;
   font-family: "Poppins";
@@ -78,8 +69,29 @@ const ItemName = styled.input`
 
   width: 100%;
   min-width: 5rem;
-
-  color: ${({ theme, selected }) => selected ? theme.color.main.light : theme.color.white};
+  color: ${({ theme, selected }) => selected ? theme.color.main.light : theme.text};
   border-bottom: 1px solid ${({ editing, theme, selected }) => editing ? theme.color.main.light : 'transparent'};
   
+`
+
+
+const EditSave = styled(PencilSvg)`
+  fill:${({ editing, theme }) => editing ? theme.color.green : theme.text};
+  width: 1.4rem;
+  transition: ${({ theme }) => theme.transition.fast};
+  cursor: pointer;
+  &:hover{
+    fill: ${({ theme, editing }) => editing ? theme.color.green : theme.color.main.light};
+  }
+ `
+const Delete = styled(TrashSvg)`
+  fill:${({ editing, theme }) => editing ? theme.color.red : theme.text};
+  width: 1.25rem;
+  margin-left: 0.8rem;
+  transition: ${({ theme }) => theme.transition.fast};
+  cursor: pointer;
+  &:hover{
+    fill: ${({ theme }) => theme.color.red};
+    
+  }
 `

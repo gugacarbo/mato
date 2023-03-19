@@ -1,10 +1,10 @@
 const theme = {
-  name: "light",
+  name: "contrast",
   background: "#e8eee4",
   backgroundLight: "#e0e1e0",
   backgroundMedium: "#d8dad2",
   backgroundDark: "#b3b5b0",
-  backgroundDarker: "#838981",
+  backgroundDarker: "#959595",
   backgroundInverse: "#181404",
   text: "#181404",
   text2: "#040002",
@@ -22,12 +22,10 @@ const theme = {
     darkGray: "#1c1c16",
     green: "#008000",
     yellow: "#ffff00",
-    orange: "#ff8c00",
-
     red: "#FF2400",
     main: {
-      darker: "#223d22",
-      dark: "#116614",
+      darker: "#004d00",
+      dark: "#006600",
       color: "#008000",
       light: "#00a600",
       lighter: "#00bf00",
